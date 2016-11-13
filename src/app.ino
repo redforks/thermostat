@@ -1,14 +1,13 @@
-#include <core.h>
+#include "thermostat.h"
 #include <dht.h>
+#include "display.h"
 
 dht DHT;
 
 #define DHT22_PIN 6
-#define HEATER_PIN 12
+#define HEATER_PIN 13
 
 #define DHT22_SAMPLE_RATE 3000
-
-#define TEMPORATURE_TARGET (204)
 
 #define HEATER_ACTION_DELAY (15*60) // minimal seconds to open/close heater, prevent switch heater too frequently.
 
@@ -135,6 +134,8 @@ void temperatureLoop() {
 void setup() {
   Serial.begin(115200);
   Serial.println(F("## Thermostat by Red Forks ##\n"));
+  setupDisplay();
+
   pinMode(HEATER_PIN, OUTPUT);
 
   idHumi = defineAnalog();
