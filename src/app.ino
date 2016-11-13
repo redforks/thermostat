@@ -71,19 +71,19 @@ void readDHT22() {
       updateTemperature(DHT.temperature);
       updateHumidity(DHT.humidity);
       Serial.print(readTempe()); 
-      Serial.print(", "); 
+      Serial.print(F(", ")); 
       Serial.print(DHT.temperature); 
       Serial.print(F(", ")); 
       Serial.println(DHT.humidity); 
       break;
     case DHTLIB_ERROR_CHECKSUM: 
-      Serial.print("Checksum error,\n"); 
+      Serial.print(F("Checksum error,\n")); 
       break;
     case DHTLIB_ERROR_TIMEOUT: 
-      Serial.print("Time out error,\n"); 
+      Serial.print(F("Time out error,\n")); 
       break;
     default: 
-      Serial.print("Unknown error,\n"); 
+      Serial.print(F("Unknown error,\n")); 
       break;
   }
 }
@@ -115,7 +115,7 @@ void switchHeater() {
       (HEATER_ACTION_DELAY - secondsSinceLastChange) * 1000,
       &doSwitchHeater);
 
-    Serial.print("Ignore heater action, not reaching minimal heater action delay. ");
+    Serial.print(F("Ignore heater action, not reaching minimal heater action delay. "));
     Serial.println(secondsSinceLastChange);
     return;
   }
