@@ -1,4 +1,6 @@
 #include "display.h"
+#include "thermostat.h"
+#include "read_temp_hum.h"
 #include <core.h>
 
 using namespace core;
