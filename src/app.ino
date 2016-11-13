@@ -3,10 +3,10 @@
 
 dht DHT;
 
-#define DHT22_PIN 5
+#define DHT22_PIN 6
 #define HEATER_PIN 12
 
-#define DHT22_SAMPLE_RATE 20000
+#define DHT22_SAMPLE_RATE 3000
 
 #define TEMPORATURE_TARGET (204)
 
@@ -19,23 +19,32 @@ idType idTempe, idHumi;
 idType idHeater;
 
 // To ensure temperature really changed, wait for last three readings are identical.
-short lastTemperature = TEMPORATURE_TARGET;
-short lastLastTemperature = TEMPORATURE_TARGET;
+int16_t lastTemperature = TEMPORATURE_TARGET;
+int16_t lastLastTemperature = TEMPORATURE_TARGET;
 
-void updateTemperature(short temp) {
-  short last = lastTemperature;
-  short lastLast = lastLastTemperature;
+void setTempe(int16_t tempe) {
+  setAnalog(idTempe, (uint16_t)tempe);
+}
+
+int16_t readTempe() {
+  return (int16_t)analogs[idTempe];
+}
+
+void updateTemperature(int16_t temp) {
+  int16_t last = lastTemperature;
+  int16_t lastLast = lastLastTemperature;
   lastLastTemperature = lastTemperature;
   lastTemperature = temp;
   // repeated reading the same temperature probable is the real value.
   if (temp == last && last == lastLast) {
-    setAnalog(idTempe, (short)temp);
+    setTempe(temp);
     return;
   }
 
   // Because dht22 actually has 0.2 precision, we only use the temperature only if 
   // dht reading has 0.2 changes.
-  short delta = abs((short)analogs[idTempe] - temp);
+  int16_t cur = readTempe();
+  int16_t delta = abs(cur - temp);
   if (delta < 2) {
     return;
   }
@@ -45,21 +54,23 @@ void updateTemperature(short temp) {
     return;
   }
 
-  setAnalog(idTempe, (short)temp);
+  setTempe(temp);
 }
 
-void updateHumidity(word hum) {
+void updateHumidity(uint16_t hum) {
   setAnalog(idHumi, hum);
 }
 
 void readDHT22() {
+  delay(2); // TODO: it seems DHT not stable without this delay
   int chk = DHT.read22(DHT22_PIN);
+
   switch (chk)
   {
     case DHTLIB_OK:  
       updateTemperature(DHT.temperature);
       updateHumidity(DHT.humidity);
-      Serial.print(analogs[idTempe]); 
+      Serial.print(readTempe()); 
       Serial.print(", "); 
       Serial.print(DHT.temperature); 
       Serial.print(F(", ")); 
@@ -78,7 +89,7 @@ void readDHT22() {
 }
 
 // seconds since last change heater state
-unsigned long lastHeaterActionSeconds = -(HEATER_ACTION_DELAY - 60); // ensure open heater in one minute after thermostat power up.  
+uint32_t lastHeaterActionSeconds = -(HEATER_ACTION_DELAY - 60); // ensure open heater in one minute after thermostat power up.  
 
 void* currentSwitchHeaterDelay = NULL;
 
@@ -91,14 +102,13 @@ void doSwitchHeater() {
 }
 
 void switchHeater() {
-  Serial.println("switch heater");
   if (currentSwitchHeaterDelay != NULL) {
     clock::removeDelay(currentSwitchHeaterDelay);
     currentSwitchHeaterDelay = NULL;
   }
 
-  unsigned long current = millis() / 1000;
-  unsigned long secondsSinceLastChange = current - lastHeaterActionSeconds;
+  uint32_t current = millis() / 1000;
+  uint32_t secondsSinceLastChange = current - lastHeaterActionSeconds;
 
   if (HEATER_ACTION_DELAY - secondsSinceLastChange > 0) {
     currentSwitchHeaterDelay = clock::delay(
@@ -114,11 +124,10 @@ void switchHeater() {
 }
 
 void temperatureLoop() {
-  Serial.println("temperatureLoop");
-  short tempe = (short)analogs[idTempe];
-  if (tempe > (TEMPORATURE_TARGET + 0.2)) {
+  int16_t tempe = readTempe();
+  if (tempe > (TEMPORATURE_TARGET + 2)) {
     setDigital(idHeater, LOW);
-  } else if (tempe < (TEMPORATURE_TARGET - 0.3)) {
+  } else if (tempe < (TEMPORATURE_TARGET - 3)) {
     setDigital(idHeater, HIGH);
   }
 }
@@ -128,17 +137,17 @@ void setup() {
   Serial.println(F("## Thermostat by Red Forks ##\n"));
   pinMode(HEATER_PIN, OUTPUT);
 
-  idTempe = defineAnalog();
   idHumi = defineAnalog();
+  idTempe = defineAnalog();
 
   idHeater = defineDigital();
-  analogs[idHeater] = TEMPORATURE_TARGET;
   
+  setTempe(TEMPORATURE_TARGET);
+
   monitorAnalogs(temperatureLoop, 1, idTempe);
   monitorDigitals(switchHeater, 1, idHeater);
    
   clock::interval(DHT22_SAMPLE_RATE, &readDHT22);
-  delay(2000);
   readDHT22(); 
 }
 
