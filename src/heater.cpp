@@ -14,8 +14,10 @@ void* currentSwitchHeaterDelay = NULL;
 void doSwitchHeater() {
   currentSwitchHeaterDelay = NULL;
   lastHeaterActionSeconds = millis() / 1000;
-  digitalWrite(HEATER_PIN, store::digitals[idHeaterReq]);
-  store::setDigital(idHeaterAct, store::digitals[idHeaterAct]);
+
+  uint8_t req = store::digitals[idHeaterReq];
+  digitalWrite(HEATER_PIN, req);
+  store::setDigital(idHeaterAct, req);
 }
 
 void switchHeater() {
@@ -27,7 +29,7 @@ void switchHeater() {
   uint32_t current = millis() / 1000;
   uint32_t secondsSinceLastChange = current - lastHeaterActionSeconds;
 
-  if (HEATER_ACTION_DELAY - secondsSinceLastChange > 0) {
+  if (compareULong(HEATER_ACTION_DELAY, secondsSinceLastChange, HEATER_ACTION_DELAY) > 0) {
     currentSwitchHeaterDelay = clock::delay(
       (HEATER_ACTION_DELAY - secondsSinceLastChange) * 1000,
       &doSwitchHeater);
