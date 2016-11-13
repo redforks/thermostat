@@ -82,5 +82,8 @@ void setupThemeHumi(void) {
   setTempe(TEMPORATURE_TARGET);
 
   clock::interval(DHT22_SAMPLE_RATE, &readDHT22);
-  readDHT22(); 
+
+  // At this time, no other modules hooks idTempe & idHumi,
+  // delays inital read, to trigger interested modules.
+  clock::delay(1, &readDHT22); 
 }
