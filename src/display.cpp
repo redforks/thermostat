@@ -1,6 +1,7 @@
 #include "display.h"
 #include "thermostat.h"
 #include "read_temp_hum.h"
+#include "heater.h"
 #include <core.h>
 
 using namespace core;
@@ -38,15 +39,36 @@ void displayLoop() {
   lcd.print('C');
 }
 
+void updateHeaterStatus() {
+  uint8_t req = store::digitals[idHeaterReq],
+          act = store::digitals[idHeaterAct];
+
+  lcd.setCursor(8, 1);
+  if (req == act) {
+    if (req) {
+      lcd.print(F("     On "));
+    } else {
+      lcd.print(F("     Off"));
+    }
+  } else {
+    if (req) {
+      lcd.print(F("Will On "));
+    } else {
+      lcd.print(F("Will Off"));
+    }
+  }
+}
+
 void setupDisplay(void) {
   lcd.begin(16, 2);
 
   lcd.setCursor(0, 1);
   lcd.write('=');
 
-  lcd.setCursor(8, 1);
-  lcd.print(F("Will On"));
+  displayLoop();
+  updateHeaterStatus();
 
   store::monitorAnalogs(&displayLoop, 2, idTempe, idHumi);
+  store::monitorDigitals(&updateHeaterStatus, 2, idHeaterReq, idHeaterAct);
 }
 

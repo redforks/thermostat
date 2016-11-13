@@ -11,10 +11,10 @@ void setup() {
   Serial.begin(115200);
   Serial.println(F("## Thermostat by Red Forks ##\n"));
 
-  setupDisplay();
   setupThemeHumi();
   setupHeater();
   setupTempeControl();
+  setupDisplay();
 }
 
 void loop() {

@@ -4,7 +4,7 @@
 
 using namespace core;
 
-idType idHeater;
+idType idHeaterReq, idHeaterAct;
 
 // seconds since last change heater state
 uint32_t lastHeaterActionSeconds = -(HEATER_ACTION_DELAY - 60); // ensure open heater in one minute after thermostat power up.  
@@ -12,11 +12,10 @@ uint32_t lastHeaterActionSeconds = -(HEATER_ACTION_DELAY - 60); // ensure open h
 void* currentSwitchHeaterDelay = NULL;
 
 void doSwitchHeater() {
-  Serial.print(F("Set heater: "));
-  Serial.println(store::digitals[idHeater] == HIGH);
   currentSwitchHeaterDelay = NULL;
   lastHeaterActionSeconds = millis() / 1000;
-  digitalWrite(HEATER_PIN, store::digitals[idHeater]);
+  digitalWrite(HEATER_PIN, store::digitals[idHeaterReq]);
+  store::setDigital(idHeaterAct, store::digitals[idHeaterAct]);
 }
 
 void switchHeater() {
@@ -44,6 +43,7 @@ void switchHeater() {
 void setupHeater(void) {
   pinMode(HEATER_PIN, OUTPUT);
 
-  idHeater = store::defineDigital();
-  store::monitorDigitals(switchHeater, 1, idHeater);
+  idHeaterReq = store::defineDigital();
+  idHeaterAct = store::defineDigital();
+  store::monitorDigitals(switchHeater, 1, idHeaterReq);
 }

@@ -9,9 +9,9 @@ using namespace core;
 void temperatureLoop() {
   int16_t tempe = readTempe();
   if (tempe > (TEMPORATURE_TARGET + 2)) {
-    store::setDigital(idHeater, LOW);
+    store::setDigital(idHeaterReq, LOW);
   } else if (tempe < (TEMPORATURE_TARGET - 3)) {
-    store::setDigital(idHeater, HIGH);
+    store::setDigital(idHeaterReq, HIGH);
   }
 }
 
