@@ -2,7 +2,6 @@
 #include "tempe_control.h"
 #include "thermostat.h"
 #include "read_temp_hum.h"
-#include "heater.h"
 
 using namespace core;
 

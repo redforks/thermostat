@@ -1,8 +1,7 @@
 #pragma once
 
 #include <core.h>
-
-extern core::idType idTempe, idHumi;
+#include "thermostat.h"
 
 void setupThemeHumi(void);
 

@@ -1,15 +1,15 @@
+#include <core.h>
+#include <LiquidCrystal.h>
 #include "display.h"
 #include "thermostat.h"
 #include "read_temp_hum.h"
-#include "heater.h"
-#include <core.h>
 
 using namespace core;
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 void displayLoop() {
-  int16_t tempe = (int16_t)store::analogs[idTempe];
+  int16_t tempe = readTempe();
   lcd.setCursor(0, 0);
   if (tempe < 0) {
     lcd.setCursor(0, 0);

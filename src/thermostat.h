@@ -1,5 +1,7 @@
 #pragma once
 
+#include <core.h>
+
 #define DHT22_PIN 6
 #define DHT22_SAMPLE_RATE 3000
 
@@ -13,3 +15,18 @@
 
 // Log temperature and humidity every 5mins
 #define TEMPE_HUMI_LOG_INTERVAL ((uint32_t)5 * 60 * 1000)
+
+#define DISPLAY_PIN1 5
+#define DISPLAY_PIN2 4
+#define DISPLAY_PIN3 3
+#define DISPLAY_PIN4 2
+#define DISPLAY_PIN5 11
+#define DISPLAY_PIN6 12
+
+extern core::idType idTempe, idHumi;
+
+// Set digital value idHeaterReq to turn on/off, heater module
+// has a throttle inside to prevent turn on/off too frequently,
+// idHeaterAct digtial value is the heater actual state.
+extern core::idType idHeaterReq, idHeaterAct;
+
