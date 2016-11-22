@@ -3,6 +3,7 @@
 #include "read_temp_hum.h"
 #include "heater.h"
 #include "tempe_control.h"
+#include "log.h"
 
 using namespace core;
 using namespace core::store;
@@ -15,6 +16,7 @@ void setup() {
   setupHeater();
   setupTempeControl();
   setupDisplay();
+  setupLog();
 }
 
 void loop() {
