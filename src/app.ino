@@ -5,6 +5,7 @@
 #include "tempe_control.h"
 #include "log.h"
 #include "keyboard.h"
+#include "rtc.h"
 
 using namespace core;
 using namespace core::store;
@@ -13,6 +14,7 @@ void setup() {
   Serial.begin(115200);
   Serial.println(F("## Thermostat by Red Forks ##\n"));
 
+  setupRTC();
   setupKeyboard();
   setupThemeHumi();
   setupHeater();
