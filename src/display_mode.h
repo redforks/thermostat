@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Time.h>
 #include <LiquidCrystal.h>
 
 extern LiquidCrystal lcd;
@@ -94,12 +95,27 @@ class TimeMode : public DisplayMode {
 // Setup key, abort set return to NORMAL_MODE,
 // Mode key, save and return to NORMAL_MODE,
 class SetupTimeMode : public DisplayMode {
+    // 0: year, 1:month, 2:day, 3:Week day, 4:Hour, 5:Minute
+    uint8_t currentPart;
+    tmElements_t tm;
+    void* intervalHandler;
+    bool blinkOn;
+
+    void doBlink(int16_t val, int8_t x, int8_t y);
+    void blinkWeekDay();
+    uint8_t getCurrentPartValue();
+    void setCurrentPartValue(uint8_t val);
+
+    uint8_t getCurrentPartMax();
   public:
     void enterState() override;
     void onModeKey() override;
     void onUpKey() override;
     void onDownKey() override;
     void onSetupKey() override;
+
+    // onBlink is an internal method.
+    void onBlink();
 };
 
 extern DisplayMode *const normalMode;
