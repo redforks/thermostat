@@ -2,73 +2,73 @@
 #include <LiquidCrystal.h>
 #include "display.h"
 #include "thermostat.h"
-#include "read_temp_hum.h"
+#include "display_mode.h"
 
 using namespace core;
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
-void displayLoop() {
-  int16_t tempe = readTempe();
-  lcd.setCursor(0, 0);
-  if (tempe < 0) {
-    lcd.setCursor(0, 0);
-    lcd.print('-');
-    tempe = -tempe;
-  } else {
-    lcd.print(' '); // clear the possible negative '-'
+DisplayMode _initialMode;
+
+DisplayMode *mode = &_initialMode;
+
+void switchMode(DisplayMode *newMode) {
+  if (newMode == mode) {
+    return;
   }
-  lcd.print(tempe / 10);
-  lcd.print('.');
-  lcd.print(tempe % 10);
-  lcd.print((char)223);
-  lcd.print('C');
 
-  int16_t humi = store::analogs[idHumi];
-  lcd.setCursor(10, 0);
-  lcd.print(humi / 10);
-  lcd.print('.');
-  lcd.print(humi % 10);
-  lcd.print('%');
-
-  lcd.setCursor(1, 1);
-  lcd.print(TEMPORATURE_TARGET / 10);
-  lcd.print('.');
-  lcd.print(TEMPORATURE_TARGET % 10);
-  lcd.print((char)223);
-  lcd.print('C');
+  mode = newMode;
+  lcd.clear();
+  newMode->enterState();
 }
 
-void updateHeaterStatus() {
-  uint8_t req = store::digitals[idHeaterReq],
-          act = store::digitals[idHeaterAct];
+void onModeKey() {
+  mode->onModeKey();
+}
 
-  lcd.setCursor(8, 1);
-  if (req == act) {
-    if (req) {
-      lcd.print(F("     On "));
-    } else {
-      lcd.print(F("     Off"));
-    }
-  } else {
-    if (req) {
-      lcd.print(F("Will On "));
-    } else {
-      lcd.print(F("Will Off"));
-    }
-  }
+void onUpKey() {
+  mode->onUpKey();
+}
+
+void onDownKey() {
+  mode->onDownKey();
+}
+
+void onSetupKey() {
+  mode->onSetupKey();
+}
+
+void onTempeHumiChanges() {
+  mode->onTempeHumiChanges();
+}
+
+void onHeaterChanges() {
+  mode->onHeaterChanges();
+}
+
+void onClock() {
+  mode->onClock();
+}
+
+void switchToNormalMode() {
+  switchMode(normalMode);
 }
 
 void setupDisplay(void) {
   lcd.begin(16, 2);
 
+  lcd.clear();
+  lcd.print(F("Thermostat v2.0"));
   lcd.setCursor(0, 1);
-  lcd.write('=');
+  lcd.print(F("Handwork of Forks"));
 
-  displayLoop();
-  updateHeaterStatus();
+  store::monitorAnalogs(&onTempeHumiChanges, 2, idTempe, idHumi);
+  store::monitorDigitals(&onHeaterChanges, 2, idHeaterReq, idHeaterAct);
+  store::monitorDigitals(&onModeKey, 1, idKeyMode);
+  store::monitorDigitals(&onUpKey, 1, idKeyUp);
+  store::monitorDigitals(&onDownKey, 1, idKeyDown);
+  store::monitorDigitals(&onSetupKey, 1, idKeySetup);
 
-  store::monitorAnalogs(&displayLoop, 2, idTempe, idHumi);
-  store::monitorDigitals(&updateHeaterStatus, 2, idHeaterReq, idHeaterAct);
+  clock::interval(1000, &onClock);
+  clock::delay(1000, &switchToNormalMode);
 }
-
