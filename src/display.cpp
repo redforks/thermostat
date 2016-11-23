@@ -67,8 +67,9 @@ void setupDisplay(void) {
 
   lcd.clear();
   lcd.print(F("Thermostat v2.0"));
-  lcd.setCursor(0, 1);
-  lcd.print(F("Handwork of Forks"));
+  lcd.setCursor(2, 1);
+  lcd.print(F("by Red Forks"));
+  delay(3000);
 
   store::monitorAnalogs(&onTempeHumiChanges, 2, idTempe, idHumi);
   store::monitorDigitals(&onHeaterChanges, 2, idHeaterReq, idHeaterAct);
