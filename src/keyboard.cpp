@@ -16,10 +16,10 @@ void setupKeyboard() {
     keyIds[i] = store::defineDigital();
   }
 
-  idKeyMode = keyPins[0];
-  idKeyUp = keyPins[1];
-  idKeyDown = keyPins[2];
-  idKeySetup = keyPins[3];
+  idKeyMode = keyIds[0];
+  idKeyUp = keyIds[1];
+  idKeyDown = keyIds[2];
+  idKeySetup = keyIds[3];
 }
 
 void checkKeys() {
