@@ -23,19 +23,27 @@ void switchMode(DisplayMode *newMode) {
 }
 
 void onModeKey() {
-  mode->onModeKey();
+  if (store::digitals[idKeyMode] == HIGH) {
+    mode->onModeKey();
+  }
 }
 
 void onUpKey() {
-  mode->onUpKey();
+  if (store::digitals[idKeyUp] == HIGH) {
+    mode->onUpKey();
+  }
 }
 
 void onDownKey() {
-  mode->onDownKey();
+  if (store::digitals[idKeyDown] == HIGH) {
+    mode->onDownKey();
+  }
 }
 
 void onSetupKey() {
-  mode->onSetupKey();
+  if (store::digitals[idKeySetup] == HIGH) {
+    mode->onSetupKey();
+  }
 }
 
 void onTempeHumiChanges() {
