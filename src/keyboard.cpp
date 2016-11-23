@@ -22,15 +22,43 @@ void setupKeyboard() {
   idKeySetup = keyIds[3];
 }
 
+void *keyRepeatIntervalHandler = NULL;
+
+void repeatUpDownKeys() {
+  if (digitalRead(KEY_DOWN_PIN) == HIGH) {
+    store::setDigital(idKeyDown, LOW);
+    store::setDigital(idKeyDown, HIGH);
+  }
+
+  if (digitalRead(KEY_UP_PIN) == HIGH) {
+    store::setDigital(idKeyUp, LOW);
+    store::setDigital(idKeyUp, HIGH);
+  }
+}
+
 void checkKeys() {
+  uint32_t now = millis();
   for (int i = 0; i < BUTTONS; i++) {
     uint8_t state = digitalRead(keyPins[i]);
+
+    uint32_t delta = now - lastKeyChangeMillis[i];
+
     if (state == store::digitals[keyIds[i]]) {
+      if (state == HIGH && (keyPins[i] == KEY_UP_PIN || keyPins[i] == KEY_DOWN_PIN) && delta > 800) {
+        if (keyRepeatIntervalHandler == NULL) {
+          keyRepeatIntervalHandler = clock::interval(200, repeatUpDownKeys);
+        }
+      }
+
       continue;
     }
 
-    uint32_t now = millis();
-    if (now - lastKeyChangeMillis[i] < 300) {
+    if (keyRepeatIntervalHandler != NULL) {
+      clock::removeInterval(keyRepeatIntervalHandler);
+      keyRepeatIntervalHandler = NULL;
+    }
+
+    if (delta < 300) {
       continue;
     }
 
