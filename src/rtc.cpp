@@ -48,13 +48,8 @@ void setupRTC() {
   if (!RTC.read(_rtcNow)) {
     if (RTC.chipPresent()) {
       // RTC maybe not inited
-      if (RTC.write(_rtcNow)) {
-        Serial.println(F("DS1307 not inited, set time to 2016-11-25 15:50:00"));
-        Serial.println();
-      } else {
-        Serial.println(F("DS1307 init failed"));
-        Serial.println();
-      }
+      Serial.println(F("DS1307 not inited, set time to 2016-11-25 15:50:00"));
+      setRtc(_rtcNow);
 
       return;
     }
