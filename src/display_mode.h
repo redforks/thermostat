@@ -82,6 +82,7 @@ class TimeMode : public DisplayMode {
     void enterState() override;
     void onModeKey() override;
     void onSetupKey() override;
+    void onClock() override;
 };
 
 // time setup mode, display as TIME_MOD, but no second part. First blink
@@ -107,3 +108,7 @@ extern DisplayMode *const timeMode;
 extern DisplayMode *const setupTimeMode;
 
 void switchMode(DisplayMode *const mode);
+
+// print number with 2 decimal digits, prefix with 0 if less than 10.
+// Assume number >= 0, number < 100.
+void print2DigitsZero(int number);

@@ -42,9 +42,9 @@ void DisplayMode::onHeaterChanges() {
 
 void NormalMode::enterState() {
   lcd.setCursor(5, 0);
-  lcd.print(F("°C     . %"));
+  lcd.print(F("\337C       %"));
   lcd.setCursor(0, 1);
-  lcd.print(F("=20.4°C"));
+  lcd.print(F("=20.4\337C"));
 
   onTempeHumiChanges();
   onHeaterChanges();
@@ -52,21 +52,22 @@ void NormalMode::enterState() {
 }
 
 void NormalMode::onModeKey() {
+  switchMode(timeMode);
 }
 
 void NormalMode::onSetupKey() {
 }
 
-void print2Digits(int number, char prefix) {
+void print2Digits(uint16_t number, char prefix) {
   if (number < 10) {
-    Serial.print(prefix);
+    lcd.print(prefix);
   }
-  Serial.print(number);
+  lcd.print(number);
 }
 
 // print number with 2 decimal digits, prefix with ' ' if less than 10.
 // Assume number >= 0, number < 100.
-void print2DigitsSpace(int number) {
+void print2DigitsSpace(uint16_t number) {
   print2Digits(number, ' ');
 }
 
@@ -95,7 +96,7 @@ void NormalMode::onTempeHumiChanges() {
   }
   printNumber00n0(tempe);
 
-  int16_t humi = store::analogs[idHumi];
+  uint16_t humi = store::analogs[idHumi];
   lcd.setCursor(10, 0);
   printNumber00n0(humi);
 }
