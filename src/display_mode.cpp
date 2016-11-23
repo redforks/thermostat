@@ -106,11 +106,12 @@ void NormalMode::onHeaterChanges() {
           act = store::digitals[idHeaterAct];
 
   if (req == act) {
-    lcd.setCursor(14, 1);
+    lcd.setCursor(13, 1);
     if (req) {
-      lcd.print(F("On"));
+      // space before "On" to wipe "O" of "Will On "
+      lcd.print(F(" On"));
     } else {
-      lcd.print(F("  "));
+      lcd.print(F("   "));
     }
   } else {
     lcd.setCursor(8, 1);
