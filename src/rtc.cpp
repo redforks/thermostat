@@ -107,6 +107,7 @@ void Queue::remove(Node *node) {
 Queue alarms;
 
 void checkAlarm() {
+  Serial.println("checkAlarm");
   tmElementsPtr_t now = rtcNow();
   for (Node *p = alarms.head; p != NULL; p = p->next) {
     if (p->when.Month != 255 && p->when.Month != now->Month) {
@@ -121,7 +122,7 @@ void checkAlarm() {
       continue;
     }
 
-    if (p->when.Hour != 255 && p->when.Wday != now->Hour) {
+    if (p->when.Hour != 255 && p->when.Hour != now->Hour) {
       continue;
     }
 
@@ -137,6 +138,7 @@ void *defineRtcAlarm(tmElements_t when, alarmFunc fn) {
   static bool rtcHosted = false;
   if (!rtcHosted) {
     rtcHosted = true;
+    Serial.println("Host RTC alarm");
     core::clock::interval(30 * 1000, &checkAlarm); // check alarm every 30 seconds.
   }
 
