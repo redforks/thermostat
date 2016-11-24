@@ -65,6 +65,9 @@ class NormalMode : public DisplayMode {
 // Mode key, save and return to NORMAL_MODE,
 // Up/Down key, inc/dec 0.1°C.
 class SetupNormalMode : public DisplayMode {
+    int16_t setpoint;
+
+    void updateSetpoint();
   public:
     void enterState() override;
     void onModeKey() override;
@@ -130,3 +133,6 @@ void switchMode(DisplayMode *const mode);
 // print number with 2 decimal digits, prefix with 0 if less than 10.
 // Assume number >= 0, number < 100.
 void print2DigitsZero(int number);
+
+// print number like 12.5, store as 125.
+void printNumber00n0(uint16_t number);

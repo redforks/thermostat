@@ -40,11 +40,10 @@ void updateHumidity(uint16_t hum) { store::setAnalog(idHumi, hum); }
 int16_t recentTempes[TEMPE_HISTORY];
 uint8_t recentTempesIdx = 0;
 int32_t tempeSum;
+int16_t lastTempe;
+int16_t lastLastTempe;
 
 void updateTemperature(int16_t temp) {
-  static int16_t lastTempe = getTempeSetpoint();
-  static int16_t lastLastTempe = getTempeSetpoint();
-
   // if lastTempe equals current one, probably it is real value, skip delta
   // filter.
   if (temp != lastTempe || lastLastTempe != lastTempe) {
@@ -88,6 +87,7 @@ void readTempeHumiFirstTime() {
   for (int i = 0; i < TEMPE_HISTORY; i++) {
     recentTempes[i] = tempe;
   }
+  lastTempe = lastLastTempe = tempe; 
   tempeSum = tempe * TEMPE_HISTORY;
 
   updateTemperature(tempe);

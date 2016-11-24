@@ -9,20 +9,8 @@ using namespace core;
 
 idType idTempeSetpoint;
 
-int16_t normalizeTempeSetpoint(int16_t val) {
-  if (val > TEMPE_SETPOINT_MAX) {
-    return TEMPE_SETPOINT_MAX;
-  }
-  
-  if (val < TEMPE_SETPOINT_MIN) {
-    return TEMPE_SETPOINT_MIN;
-  }
-
-  return val;
-}
-
 void setTempeSetpoint(int16_t val) {
-  val = normalizeTempeSetpoint(val);
+  val = constrain(val, TEMPE_SETPOINT_MIN, TEMPE_SETPOINT_MAX);
 
   if (val != getTempeSetpoint()) {
     EEPROM.put(TEMPE_SETPOINT_EEPROM_ADDRESS, val);

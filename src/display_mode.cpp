@@ -61,6 +61,7 @@ void NormalMode::onModeKey() {
 }
 
 void NormalMode::onSetupKey() {
+  switchMode(setupNormalMode);
 }
 
 void print2Digits(uint16_t number, char prefix) {

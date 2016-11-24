@@ -62,8 +62,9 @@ void onTempeSetpointChanges() {
   mode->onTempeSetpointChanges();
 }
 
-void switchToNormalMode() {
+void delayStart() {
   switchMode(normalMode);
+  clock::interval(1000, &onClock);
 }
 
 void setupDisplay(void) {
@@ -73,7 +74,6 @@ void setupDisplay(void) {
   lcd.print(F("Thermostat v2.0"));
   lcd.setCursor(2, 1);
   lcd.print(F("by Red Forks"));
-  delay(3000);
 
   store::monitorAnalogs(&onTempeHumiChanges, 2, idTempe, idHumi);
   store::monitorDigitals(&onHeaterChanges, 2, idHeaterReq, idHeaterAct);
@@ -83,6 +83,5 @@ void setupDisplay(void) {
   store::monitorDigitals(&onSetupKey, 1, idKeySetup);
   store::monitorAnalogs(&onTempeSetpointChanges, 1, idTempeSetpoint);
 
-  clock::interval(1000, &onClock);
-  clock::delay(1000, &switchToNormalMode);
+  clock::delay(3000, &delayStart);
 }
