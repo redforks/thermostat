@@ -66,14 +66,20 @@ class NormalMode : public DisplayMode {
 // Up/Down key, inc/dec 0.1°C.
 class SetupNormalMode : public DisplayMode {
     int16_t setpoint;
+    bool blinkOn;
+    void* blinkDelayHandler;
 
     void updateSetpoint();
+    void updateSetpointForAdjust();
   public:
     void enterState() override;
     void onModeKey() override;
     void onUpKey() override;
     void onDownKey() override;
     void onSetupKey() override;
+
+    // onBlink is an internal method.
+    void onBlink();
 };
 
 // time display mode

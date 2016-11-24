@@ -1,23 +1,55 @@
+#include <core.h>
 #include "display_mode.h"
 #include "tempe_control.h"
 #include "thermostat.h"
 
+using namespace core;
+
+void setupNormalModeOnBlink() {
+  static_cast<SetupNormalMode*>(setupNormalMode)->onBlink();
+}
+
+void SetupNormalMode::updateSetpointForAdjust() {
+  blinkOn = true;
+  updateSetpoint();
+
+  if (setupNormalModeOnBlink != NULL) {
+    clock::removeDelay(blinkDelayHandler);
+    blinkDelayHandler = clock::delay(500, setupNormalModeOnBlink);
+  }
+}
+
+void SetupNormalMode::onBlink() {
+  blinkDelayHandler = clock::delay(500, setupNormalModeOnBlink);
+
+  blinkOn = !blinkOn;
+  updateSetpoint();
+}
+
 void SetupNormalMode::updateSetpoint() {
   lcd.setCursor(2, 1);
-  printNumber00n0(setpoint);
+  if (blinkOn) {
+    printNumber00n0(setpoint);
+    return;
+  }
+
+  lcd.print("    ");
 }
 
 void SetupNormalMode::enterState() {
-  lcd.setCursor(1, 0);
   lcd.print(F("SET TARGET TEMPE"));
   lcd.setCursor(6, 1);
   lcd.print(F("\337C"));
 
   setpoint = getTempeSetpoint();
   updateSetpoint();
+
+  blinkDelayHandler = clock::delay(500, setupNormalModeOnBlink);
 }
 
 void SetupNormalMode::onModeKey() {
+  clock::removeDelay(blinkDelayHandler);
+
   setTempeSetpoint(setpoint);
   switchMode(normalMode);
 }
@@ -28,7 +60,7 @@ void SetupNormalMode::onUpKey() {
     setpoint = TEMPE_SETPOINT_MIN;
   }
 
-  updateSetpoint();
+  updateSetpointForAdjust();
 }
 
 void SetupNormalMode::onDownKey() {
@@ -37,7 +69,7 @@ void SetupNormalMode::onDownKey() {
     setpoint = TEMPE_SETPOINT_MAX;
   }
 
-  updateSetpoint();
+  updateSetpointForAdjust();
 }
 
 void SetupNormalMode::onSetupKey() {
