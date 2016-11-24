@@ -1,6 +1,7 @@
 #include "read_temp_hum.h"
 #include <dht.h>
 #include "thermostat.h"
+#include "tempe_control.h"
 
 #define TEMPE_HISTORY 6  // How many temperature history value used for filter
 
@@ -38,11 +39,11 @@ void updateHumidity(uint16_t hum) { store::setAnalog(idHumi, hum); }
 
 int16_t recentTempes[TEMPE_HISTORY];
 uint8_t recentTempesIdx = 0;
-int32_t tempeSum = TEMPORATURE_TARGET * TEMPE_HISTORY;
+int32_t tempeSum;
 
 void updateTemperature(int16_t temp) {
-  static int16_t lastTempe = TEMPORATURE_TARGET;
-  static int16_t lastLastTempe = TEMPORATURE_TARGET;
+  static int16_t lastTempe = getTempeSetpoint();
+  static int16_t lastLastTempe = getTempeSetpoint();
 
   // if lastTempe equals current one, probably it is real value, skip delta
   // filter.
@@ -77,7 +78,7 @@ void updateTemperature(int16_t temp) {
 }
 
 void readTempeHumiFirstTime() {
-  int16_t tempe = TEMPORATURE_TARGET;
+  int16_t tempe = getTempeSetpoint();
   uint16_t humi = 500;
   if (doReadDHT22()) {
     tempe = DHT.temperature;
@@ -111,7 +112,7 @@ void setupThemeHumi(void) {
   idHumi = store::defineAnalog();
   idTempe = store::defineAnalog();
 
-  setTempe(TEMPORATURE_TARGET);
+  setTempe(getTempeSetpoint());
 
   clock::interval(DHT22_SAMPLE_RATE, &readDHT22);
 

@@ -58,6 +58,10 @@ void onClock() {
   mode->onClock();
 }
 
+void onTempeSetpointChanges() {
+  mode->onTempeSetpointChanges();
+}
+
 void switchToNormalMode() {
   switchMode(normalMode);
 }
@@ -77,6 +81,7 @@ void setupDisplay(void) {
   store::monitorDigitals(&onUpKey, 1, idKeyUp);
   store::monitorDigitals(&onDownKey, 1, idKeyDown);
   store::monitorDigitals(&onSetupKey, 1, idKeySetup);
+  store::monitorAnalogs(&onTempeSetpointChanges, 1, idTempeSetpoint);
 
   clock::interval(1000, &onClock);
   clock::delay(1000, &switchToNormalMode);

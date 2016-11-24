@@ -5,7 +5,10 @@
 #define DHT22_PIN 6
 #define DHT22_SAMPLE_RATE 3000
 
-#define TEMPORATURE_TARGET (204)
+#define DEFAULT_TEMPE_SETPOINT (204)
+#define TEMPE_SETPOINT_MAX 350 // min temperature setpoint
+#define TEMPE_SETPOINT_MIN 100 // max temperature setpoint
+#define TEMPE_SETPOINT_EEPROM_ADDRESS 0 // address of EEPROM to store temperature setpoint
 
 #define HEATER_PIN 10
 #define HEATER_ACTION_DELAY (15*60) // minimal seconds to open/close heater, prevent switch heater too frequently.
@@ -23,7 +26,7 @@
 #define DISPLAY_PIN5 11
 #define DISPLAY_PIN6 12
 
-extern core::idType idTempe, idHumi;
+extern core::idType idTempe, idHumi, idTempeSetpoint;
 
 // Set digital value idHeaterReq to turn on/off, heater module
 // has a throttle inside to prevent turn on/off too frequently,

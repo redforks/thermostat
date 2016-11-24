@@ -2,6 +2,7 @@
 #include <core.h>
 #include "display_mode.h"
 #include "read_temp_hum.h"
+#include "tempe_control.h"
 #include "rtc.h"
 
 using namespace core;
@@ -34,6 +35,9 @@ void DisplayMode::onSetupKey() {
 void DisplayMode::onTempeHumiChanges() {
 }
 
+void DisplayMode::onTempeSetpointChanges() {
+}
+
 void DisplayMode::onClock() {
 }
 
@@ -44,11 +48,12 @@ void NormalMode::enterState() {
   lcd.setCursor(5, 0);
   lcd.print(F("\337C       %"));
   lcd.setCursor(0, 1);
-  lcd.print(F("=20.4\337C"));
+  lcd.print(F("=    \337C"));
 
   onTempeHumiChanges();
   onHeaterChanges();
   onClock();
+  onTempeSetpointChanges();
 }
 
 void NormalMode::onModeKey() {
@@ -99,6 +104,11 @@ void NormalMode::onTempeHumiChanges() {
   uint16_t humi = store::analogs[idHumi];
   lcd.setCursor(10, 0);
   printNumber00n0(humi);
+}
+
+void NormalMode::onTempeSetpointChanges() {
+  lcd.setCursor(1, 1);
+  printNumber00n0(getTempeSetpoint());
 }
 
 void NormalMode::onHeaterChanges() {

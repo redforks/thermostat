@@ -15,6 +15,7 @@ class DisplayMode {
     virtual void onDownKey();
     virtual void onSetupKey();
     virtual void onTempeHumiChanges();
+    virtual void onTempeSetpointChanges();
     virtual void onHeaterChanges();
     virtual void onClock();
 };
@@ -49,6 +50,7 @@ class NormalMode : public DisplayMode {
     void onModeKey() override;
     void onSetupKey() override;
     void onTempeHumiChanges() override;
+    void onTempeSetpointChanges() override;
     void onHeaterChanges() override;
     void onClock() override;
 };
