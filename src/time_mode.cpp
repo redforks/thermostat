@@ -78,6 +78,7 @@ uint8_t SetupTimeMode::getCurrentPartValue() {
     case 5:
       return tm.Minute;
   }
+  return 0;
 }
 
 void SetupTimeMode::setCurrentPartValue(uint8_t val) {
