@@ -104,7 +104,27 @@ void SetupTimeMode::setCurrentPartValue(uint8_t val) {
   }
 }
 
-void SetupTimeMode::doBlink(int16_t val, int8_t x, int8_t y) {
+void SetupTimeMode::doBlink() {
+  int8_t x, y;
+  int16_t val;
+  switch (currentPart) {
+    case 0:
+      val = 1970 + tm.Year, x = 1, y = 0;
+      break;
+    case 1:
+      val = tm.Month, x = 6, y = 0;
+      break;
+    case 2:
+      val = tm.Day, x = 9, y = 0;
+      break;
+    case 4:
+      val = tm.Hour, x = 5, y = 1;
+      break;
+    case 5:
+      val = tm.Minute, x = 8, y = 1;
+      break;
+  }
+
   lcd.setCursor(x, y);
   if (blinkOn) {
     if (val > 100) {
@@ -126,37 +146,30 @@ void SetupTimeMode::blinkWeekDay() {
   }
 }
 
+void setupTimeModeOnBlink() {
+  static_cast<SetupTimeMode*>(setupTimeMode)->onBlink();
+}
+
 void SetupTimeMode::onBlink() {
   if (currentPart == 3) {
     blinkWeekDay();
   }
 
-  switch (currentPart) {
-    case 0:
-      doBlink(1970 + tm.Year, 1, 0);
-      break;
-    case 1:
-      doBlink(tm.Month, 6, 0);
-      break;
-    case 2:
-      doBlink(tm.Day, 9, 0);
-      break;
-    case 4:
-      doBlink(tm.Hour, 5, 1);
-      break;
-    case 5:
-      doBlink(tm.Minute, 8, 1);
-      break;
-  }
+  doBlink();
   blinkOn = !blinkOn;
+  blinkDelayHandler = clock::delay(500, setupTimeModeOnBlink);
 }
 
-void setupTimeModeOnBlink() {
-  static_cast<SetupTimeMode*>(setupTimeMode)->onBlink();
+void SetupTimeMode::reScheduleBlink() {
+  if (blinkDelayHandler != NULL) {
+    clock::removeDelay(blinkDelayHandler);
+  }
+
+  blinkDelayHandler = clock::delay(500, setupTimeModeOnBlink);
 }
 
 void SetupTimeMode::enterState() {
-  intervalHandler = clock::interval(500, setupTimeModeOnBlink);
+  blinkDelayHandler = clock::delay(500, setupTimeModeOnBlink);
   currentPart = 0;
 
   tm = *rtcNow();
@@ -180,7 +193,8 @@ void SetupTimeMode::onModeKey() {
   tm.Second = 0;
   setRtc(tm);
 
-  clock::removeInterval(intervalHandler);
+  clock::removeDelay(blinkDelayHandler);
+  blinkDelayHandler = NULL;
   switchMode(timeMode);
 }
 
@@ -211,6 +225,10 @@ void SetupTimeMode::onUpKey() {
     val = timePartMins[currentPart];
   }
   setCurrentPartValue(val);
+
+  blinkOn = true;
+  doBlink();
+  reScheduleBlink();
 }
 
 void SetupTimeMode::onDownKey() {
@@ -221,6 +239,10 @@ void SetupTimeMode::onDownKey() {
     val--;
   }
   setCurrentPartValue(val);
+
+  blinkOn = true;
+  doBlink();
+  reScheduleBlink();
 }
 
 void SetupTimeMode::onSetupKey() {

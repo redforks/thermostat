@@ -13,7 +13,7 @@ void SetupNormalMode::updateSetpointForAdjust() {
   blinkOn = true;
   updateSetpoint();
 
-  if (setupNormalModeOnBlink != NULL) {
+  if (blinkDelayHandler != NULL) {
     clock::removeDelay(blinkDelayHandler);
     blinkDelayHandler = clock::delay(500, setupNormalModeOnBlink);
   }
@@ -49,6 +49,7 @@ void SetupNormalMode::enterState() {
 
 void SetupNormalMode::onModeKey() {
   clock::removeDelay(blinkDelayHandler);
+  blinkDelayHandler = NULL;
 
   setTempeSetpoint(setpoint);
   switchMode(normalMode);
