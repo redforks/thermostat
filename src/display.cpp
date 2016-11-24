@@ -12,6 +12,10 @@ DisplayMode _initialMode;
 
 DisplayMode *mode = &_initialMode;
 
+DisplayMode *currentMode() {
+  return mode;
+}
+
 void switchMode(DisplayMode *newMode) {
   if (newMode == mode) {
     return;
@@ -82,6 +86,8 @@ void setupDisplay(void) {
   store::monitorDigitals(&onDownKey, 1, idKeyDown);
   store::monitorDigitals(&onSetupKey, 1, idKeySetup);
   store::monitorAnalogs(&onTempeSetpointChanges, 1, idTempeSetpoint);
+
+  setupDayScheduleMode();
 
   clock::delay(3000, &delayStart);
 }

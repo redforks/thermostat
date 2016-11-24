@@ -11,11 +11,13 @@ NormalMode _normalMode;
 SetupNormalMode _setupNormalMode;
 TimeMode _timeMode;
 SetupTimeMode _setupTimeMode;
+DayScheduleMode _dayScheduleMode;
 
 DisplayMode *const normalMode = &_normalMode;
 DisplayMode *const setupNormalMode = &_setupNormalMode;
 DisplayMode *const timeMode = &_timeMode;
 DisplayMode *const setupTimeMode = &_setupTimeMode;
+DisplayMode *const dayScheduleMode = &_dayScheduleMode;
 
 void DisplayMode::enterState() {
 }

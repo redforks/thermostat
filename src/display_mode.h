@@ -2,6 +2,7 @@
 
 #include <Time.h>
 #include <LiquidCrystal.h>
+#include <core.h>
 
 extern LiquidCrystal lcd;
 
@@ -140,10 +141,24 @@ class SetupTimeMode : public SetupModeBase {
     void onSetupKey() override;
 };
 
+// Display like Normal mode, but add "D" between temperature and humidity:
+//
+//   18.9°C   50.4%
+//  =18.9°C 19:20 On
+//
+// Day schedule change setpoint by RTC alarm.
+class DayScheduleMode : public NormalMode {
+  public:
+    void enterState() override;
+    void onModeKey() override;
+    void onSetupKey() override;
+};
+
 extern DisplayMode *const normalMode;
 extern DisplayMode *const setupNormalMode;
 extern DisplayMode *const timeMode;
 extern DisplayMode *const setupTimeMode;
+extern DisplayMode *const dayScheduleMode;
 
 void switchMode(DisplayMode *const mode);
 
@@ -153,3 +168,10 @@ void print2DigitsZero(int number);
 
 // print number like 12.5, store as 125.
 void printNumber00n0(uint16_t number);
+
+// callback registered 
+void setupDayScheduleMode();
+
+// return current display mode.
+DisplayMode *currentMode();
+

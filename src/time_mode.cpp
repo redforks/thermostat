@@ -10,7 +10,7 @@ void TimeMode::enterState() {
 }
 
 void TimeMode::onModeKey() {
-  switchMode(normalMode);
+  switchMode(dayScheduleMode);
 }
 
 void TimeMode::onSetupKey() {
