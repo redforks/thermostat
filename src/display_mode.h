@@ -55,6 +55,28 @@ class NormalMode : public DisplayMode {
     void onClock() override;
 };
 
+class SetupModeBase : public DisplayMode {
+    bool blinkOn;
+    void* blinkDelayHandler;
+
+    void reScheduleBlink();
+  protected:
+    // return callback function register as core::clock::delay
+    virtual core::callback blinkCallback() = 0;
+
+    virtual void doBlink(bool showOrHide) = 0;
+
+    // Call updateForAdjust() after change current setting value, to update
+    // display and delays blink 
+    void updateForAdjust();
+  public:
+    void enterState() override;
+    void onModeKey() override;
+
+    // onBlink is an internal method.
+    void onBlink();
+};
+
 // Display as:
 //
 //  SET TARGET TEMP
@@ -64,22 +86,16 @@ class NormalMode : public DisplayMode {
 // Setup key, abort set return to NORMAL_MODE,
 // Mode key, save and return to NORMAL_MODE,
 // Up/Down key, inc/dec 0.1°C.
-class SetupNormalMode : public DisplayMode {
+class SetupNormalMode : public SetupModeBase {
     int16_t setpoint;
-    bool blinkOn;
-    void* blinkDelayHandler;
-
-    void updateSetpoint();
-    void updateSetpointForAdjust();
+  protected:
+    core::callback blinkCallback() override;
+    void doBlink(bool showOrHide) override;
   public:
     void enterState() override;
     void onModeKey() override;
     void onUpKey() override;
     void onDownKey() override;
-    void onSetupKey() override;
-
-    // onBlink is an internal method.
-    void onBlink();
 };
 
 // time display mode
@@ -105,29 +121,24 @@ class TimeMode : public DisplayMode {
 //
 // Setup key, abort set return to NORMAL_MODE,
 // Mode key, save and return to NORMAL_MODE,
-class SetupTimeMode : public DisplayMode {
+class SetupTimeMode : public SetupModeBase {
     // 0: year, 1:month, 2:day, 3:Week day, 4:Hour, 5:Minute
     uint8_t currentPart;
     tmElements_t tm;
 
-    void doBlink();
-    void blinkWeekDay();
+    void blinkWeekDay(bool showOrHide);
     uint8_t getCurrentPartMax();
     uint8_t getCurrentPartValue();
     void setCurrentPartValue(uint8_t val);
-
-    void* blinkDelayHandler;
-    bool blinkOn;
-    void reScheduleBlink();
+  protected:
+    core::callback blinkCallback() override;
+    void doBlink(bool showOrHide) override;
   public:
     void enterState() override;
     void onModeKey() override;
     void onUpKey() override;
     void onDownKey() override;
     void onSetupKey() override;
-
-    // onBlink is an internal method.
-    void onBlink();
 };
 
 extern DisplayMode *const normalMode;

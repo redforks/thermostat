@@ -104,7 +104,28 @@ void SetupTimeMode::setCurrentPartValue(uint8_t val) {
   }
 }
 
-void SetupTimeMode::doBlink() {
+void SetupTimeMode::blinkWeekDay(bool showOrHide) {
+  lcd.setCursor(12, 0);
+  if (showOrHide) {
+    lcd.print(getWeekDayName(tm.Wday));
+  } else {
+    lcd.print(F("   "));
+  }
+}
+
+void setupTimeModeOnBlink() {
+  static_cast<SetupTimeMode*>(setupTimeMode)->onBlink();
+}
+
+callback SetupTimeMode::blinkCallback() {
+  return setupTimeModeOnBlink;
+}
+
+void SetupTimeMode::doBlink(bool showOrHide) {
+  if (currentPart == 3) {
+    blinkWeekDay(showOrHide);
+  }
+
   int8_t x, y;
   int16_t val;
   switch (currentPart) {
@@ -126,7 +147,7 @@ void SetupTimeMode::doBlink() {
   }
 
   lcd.setCursor(x, y);
-  if (blinkOn) {
+  if (showOrHide) {
     if (val > 100) {
       lcd.print(val);
     } else {
@@ -137,39 +158,7 @@ void SetupTimeMode::doBlink() {
   }
 }
 
-void SetupTimeMode::blinkWeekDay() {
-  lcd.setCursor(12, 0);
-  if (blinkOn) {
-    lcd.print(getWeekDayName(tm.Wday));
-  } else {
-    lcd.print(F("   "));
-  }
-}
-
-void setupTimeModeOnBlink() {
-  static_cast<SetupTimeMode*>(setupTimeMode)->onBlink();
-}
-
-void SetupTimeMode::onBlink() {
-  if (currentPart == 3) {
-    blinkWeekDay();
-  }
-
-  doBlink();
-  blinkOn = !blinkOn;
-  blinkDelayHandler = clock::delay(500, setupTimeModeOnBlink);
-}
-
-void SetupTimeMode::reScheduleBlink() {
-  if (blinkDelayHandler != NULL) {
-    clock::removeDelay(blinkDelayHandler);
-  }
-
-  blinkDelayHandler = clock::delay(500, setupTimeModeOnBlink);
-}
-
 void SetupTimeMode::enterState() {
-  blinkDelayHandler = clock::delay(500, setupTimeModeOnBlink);
   currentPart = 0;
 
   tm = *rtcNow();
@@ -187,14 +176,16 @@ void SetupTimeMode::enterState() {
   print2DigitsZero(tm.Hour);
   lcd.print(':');
   print2DigitsZero(tm.Minute);
+
+  SetupModeBase::enterState();
 }
 
 void SetupTimeMode::onModeKey() {
+  SetupModeBase::onModeKey();
+
   tm.Second = 0;
   setRtc(tm);
 
-  clock::removeDelay(blinkDelayHandler);
-  blinkDelayHandler = NULL;
   switchMode(timeMode);
 }
 
@@ -224,11 +215,9 @@ void SetupTimeMode::onUpKey() {
   if (val > getCurrentPartMax()) {
     val = timePartMins[currentPart];
   }
-  setCurrentPartValue(val);
 
-  blinkOn = true;
-  doBlink();
-  reScheduleBlink();
+  setCurrentPartValue(val);
+  updateForAdjust();
 }
 
 void SetupTimeMode::onDownKey() {
@@ -238,18 +227,13 @@ void SetupTimeMode::onDownKey() {
   } else {
     val--;
   }
-  setCurrentPartValue(val);
 
-  blinkOn = true;
-  doBlink();
-  reScheduleBlink();
+  setCurrentPartValue(val);
+  updateForAdjust();
 }
 
 void SetupTimeMode::onSetupKey() {
-  bool saved = blinkOn;
-  blinkOn = true;
-  onBlink();
-  blinkOn = saved;
+  doBlink(true);
   currentPart = (currentPart + 1) % 6;
 }
 

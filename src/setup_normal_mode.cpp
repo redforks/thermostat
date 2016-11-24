@@ -9,26 +9,13 @@ void setupNormalModeOnBlink() {
   static_cast<SetupNormalMode*>(setupNormalMode)->onBlink();
 }
 
-void SetupNormalMode::updateSetpointForAdjust() {
-  blinkOn = true;
-  updateSetpoint();
-
-  if (blinkDelayHandler != NULL) {
-    clock::removeDelay(blinkDelayHandler);
-    blinkDelayHandler = clock::delay(500, setupNormalModeOnBlink);
-  }
+callback SetupNormalMode::blinkCallback() {
+  return setupNormalModeOnBlink;
 }
 
-void SetupNormalMode::onBlink() {
-  blinkDelayHandler = clock::delay(500, setupNormalModeOnBlink);
-
-  blinkOn = !blinkOn;
-  updateSetpoint();
-}
-
-void SetupNormalMode::updateSetpoint() {
+void SetupNormalMode::doBlink(bool showOrHide) {
   lcd.setCursor(2, 1);
-  if (blinkOn) {
+  if (showOrHide) {
     printNumber00n0(setpoint);
     return;
   }
@@ -42,14 +29,13 @@ void SetupNormalMode::enterState() {
   lcd.print(F("\337C"));
 
   setpoint = getTempeSetpoint();
-  updateSetpoint();
+  doBlink(true);
 
-  blinkDelayHandler = clock::delay(500, setupNormalModeOnBlink);
+  SetupModeBase::enterState();
 }
 
 void SetupNormalMode::onModeKey() {
-  clock::removeDelay(blinkDelayHandler);
-  blinkDelayHandler = NULL;
+  SetupModeBase::onModeKey();
 
   setTempeSetpoint(setpoint);
   switchMode(normalMode);
@@ -61,7 +47,7 @@ void SetupNormalMode::onUpKey() {
     setpoint = TEMPE_SETPOINT_MIN;
   }
 
-  updateSetpointForAdjust();
+  updateForAdjust();
 }
 
 void SetupNormalMode::onDownKey() {
@@ -70,8 +56,5 @@ void SetupNormalMode::onDownKey() {
     setpoint = TEMPE_SETPOINT_MAX;
   }
 
-  updateSetpointForAdjust();
-}
-
-void SetupNormalMode::onSetupKey() {
+  updateForAdjust();
 }
