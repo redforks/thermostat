@@ -126,7 +126,6 @@ class SetupTimeMode : public SetupModeBase {
     uint8_t currentPart;
     tmElements_t tm;
 
-    void blinkWeekDay(bool showOrHide);
     uint8_t getCurrentPartMax();
     uint8_t getCurrentPartValue();
     void setCurrentPartValue(uint8_t val);

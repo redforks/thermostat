@@ -104,15 +104,6 @@ void SetupTimeMode::setCurrentPartValue(uint8_t val) {
   }
 }
 
-void SetupTimeMode::blinkWeekDay(bool showOrHide) {
-  lcd.setCursor(12, 0);
-  if (showOrHide) {
-    lcd.print(getWeekDayName(tm.Wday));
-  } else {
-    lcd.print(F("   "));
-  }
-}
-
 void setupTimeModeOnBlink() {
   static_cast<SetupTimeMode*>(setupTimeMode)->onBlink();
 }
@@ -122,10 +113,6 @@ callback SetupTimeMode::blinkCallback() {
 }
 
 void SetupTimeMode::doBlink(bool showOrHide) {
-  if (currentPart == 3) {
-    blinkWeekDay(showOrHide);
-  }
-
   int8_t x, y;
   int16_t val;
   switch (currentPart) {
@@ -138,6 +125,10 @@ void SetupTimeMode::doBlink(bool showOrHide) {
     case 2:
       val = tm.Day, x = 9, y = 0;
       break;
+    case 3:
+      x = 12, y = 0;
+      val = 1000;
+      break;
     case 4:
       val = tm.Hour, x = 5, y = 1;
       break;
@@ -147,35 +138,34 @@ void SetupTimeMode::doBlink(bool showOrHide) {
   }
 
   lcd.setCursor(x, y);
-  if (showOrHide) {
-    if (val > 100) {
-      lcd.print(val);
-    } else {
-      print2DigitsZero(val);
-    }
-  } else {
+
+  if (!showOrHide) {
     lcd.print(val > 100 ? F("    ") : F("  "));
+    return;
+  }
+
+  if (currentPart == 3) {
+    lcd.print(getWeekDayName(tm.Wday));
+    return;
+  }
+
+  if (val > 100) {
+    lcd.print(val);
+  } else {
+    print2DigitsZero(val);
   }
 }
 
 void SetupTimeMode::enterState() {
-  currentPart = 0;
-
   tm = *rtcNow();
 
-  lcd.setCursor(1, 0);
-  lcd.print(1970 + tm.Year);
-  lcd.print('-');
-  print2DigitsZero(tm.Month);
-  lcd.print('-');
-  print2DigitsZero(tm.Day);
-  lcd.print(' ');
-  lcd.print(getWeekDayName(tm.Wday));
-
-  lcd.setCursor(5, 1);
-  print2DigitsZero(tm.Hour);
+  lcd.print(F("     -  -"));
+  lcd.setCursor(7, 1);
   lcd.print(':');
-  print2DigitsZero(tm.Minute);
+  for (currentPart = 0; currentPart < TIME_PARTS; currentPart++) {
+    doBlink(true);
+  }
+  currentPart = 0;
 
   SetupModeBase::enterState();
 }
