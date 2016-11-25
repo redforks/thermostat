@@ -58,5 +58,8 @@ void SetupNormalMode::onDownKey() {
 }
 
 void SetupNormalMode::onSetupKey() {
+  SetupModeBase::onModeKey();
+
+  setTempeSetpoint(setpoint);
   switchMode(setupTempeHighLowMode);
 }

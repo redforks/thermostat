@@ -34,14 +34,21 @@ void SetupTempeHighLowMode::enterState() {
   lcd.setCursor(1, 1);
   lcd.print(F("H: 0.   L: 0."));
 
+  high = getTempeSetpointHigh();
+  low = getTempeSetpointLow();
+
   curPart = 1;
   doBlink(true);
 
   curPart = 0;
   doBlink(true);
+
+  SetupModeBase::enterState();
 }
 
 void SetupTempeHighLowMode::onModeKey() {
+  SetupModeBase::onModeKey();
+
   setTempeSetpointHigh(high);
   setTempeSetpointLow(low);
 

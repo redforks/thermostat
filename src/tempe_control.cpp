@@ -73,11 +73,15 @@ void initTempSetpointHighLow() {
   EEPROM.get(TEMPE_SETPOINT_HIGH_EEPROM_ADDRESS, val);
   if (val < TEMPE_SETPOINT_HIGH_LOW_MIN || val > TEMPE_SETPOINT_HIGH_LOW_MAX) {
     setTempeSetpointHigh(2);
+  } else {
+    tempSetpointHigh = val;
   }
 
   EEPROM.get(TEMPE_SETPOINT_LOW_EEPROM_ADDRESS, val);
   if (val < TEMPE_SETPOINT_HIGH_LOW_MIN || val > TEMPE_SETPOINT_HIGH_LOW_MAX) {
     setTempeSetpointLow(3);
+  } else {
+    tempSetpointLow = val;
   }
 }
 
