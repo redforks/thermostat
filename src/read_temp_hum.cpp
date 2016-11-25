@@ -101,11 +101,6 @@ void readDHT22() {
 
   updateTemperature(DHT.temperature);
   updateHumidity(DHT.humidity);
-  Serial.print(readTempe());
-  Serial.print(F(", "));
-  Serial.print(DHT.temperature);
-  Serial.print(F(", "));
-  Serial.println(DHT.humidity);
 }
 
 void setupThemeHumi(void) {

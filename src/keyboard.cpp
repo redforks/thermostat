@@ -1,9 +1,10 @@
+#include <avr/pgmspace.h>
 #include <core.h>
 #include "thermostat.h"
 #include "keyboard.h"
 
 #define BUTTONS 4
-uint8_t keyPins[BUTTONS] = {KEY_MODE_PIN, KEY_UP_PIN, KEY_DOWN_PIN, KEY_SETUP_PIN};
+const PROGMEM uint8_t keyPins[BUTTONS] = {KEY_MODE_PIN, KEY_UP_PIN, KEY_DOWN_PIN, KEY_SETUP_PIN};
 uint32_t lastKeyChangeMillis[BUTTONS] = {0, 0, 0, 0};
 
 using namespace core;

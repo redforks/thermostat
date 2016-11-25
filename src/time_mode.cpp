@@ -1,3 +1,4 @@
+#include <avr/pgmspace.h>
 #include <Time.h>
 #include <core.h>
 #include "display_mode.h"
@@ -17,24 +18,15 @@ void TimeMode::onSetupKey() {
   switchMode(setupTimeMode);
 }
 
-const __FlashStringHelper* getWeekDayName(uint8_t wday) {
-  switch (wday) {
-    case 1:
-      return F("SUN");
-    case 2:
-      return F("MON");
-    case 3:
-      return F("TUE");
-    case 4:
-      return F("WES");
-    case 5:
-      return F("THU");
-    case 6:
-      return F("FRI");
-    case 7:
-      return F("SAT");
+const PROGMEM char weekDayNames[8][4] = {
+  "   ", "SUN", "MON", "TUE", "WES", "THU", "FRI", "SAT"
+};
+
+const char* getWeekDayName(uint8_t wday) {
+  if (wday < 1 || wday > 7) {
+    wday = 0;
   }
-  return F("  ");
+  return weekDayNames[wday];
 }
 
 void TimeMode::onClock() {
@@ -60,8 +52,8 @@ void TimeMode::onClock() {
 
 #define TIME_PARTS 6
 
-uint8_t timePartMins[TIME_PARTS] = {2010-1970, 1, 1, 1, 0, 0};
-uint8_t timePartMaxs[TIME_PARTS] = {2050-1970, 12, 0, 7, 23, 59};
+const PROGMEM uint8_t timePartMins[TIME_PARTS] = {2010-1970, 1, 1, 1, 0, 0};
+const PROGMEM uint8_t timePartMaxs[TIME_PARTS] = {2050-1970, 12, 0, 7, 23, 59};
 
 uint8_t SetupTimeMode::getCurrentPartValue() {
   switch (currentPart) {
