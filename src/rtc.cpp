@@ -48,13 +48,13 @@ void setupRTC() {
   if (!RTC.read(_rtcNow)) {
     if (RTC.chipPresent()) {
       // RTC maybe not inited
-      Serial.println(F("init DS1307 time to 2016-11-25 15:50:00"));
+      Serial.println(F("DS1307 not inited, set time to 2016-11-25 15:50:00"));
       setRtc(_rtcNow);
 
       return;
     }
 
-    Serial.println(F("DS1307 read error!"));
+    Serial.println(F("DS1307 read error!  Please check the circuitry."));
     Serial.println();
   }
 }
@@ -107,6 +107,7 @@ void Queue::remove(Node *node) {
 Queue alarms;
 
 void checkAlarm() {
+  Serial.println("checkAlarm");
   tmElementsPtr_t now = rtcNow();
   for (Node *p = alarms.head; p != NULL; p = p->next) {
     if (p->when.Month != 255 && p->when.Month != now->Month) {
@@ -137,6 +138,7 @@ void *defineRtcAlarm(tmElements_t when, alarmFunc fn) {
   static bool rtcHosted = false;
   if (!rtcHosted) {
     rtcHosted = true;
+    Serial.println("Host RTC alarm");
     core::clock::interval(30 * 1000, &checkAlarm); // check alarm every 30 seconds.
   }
 
