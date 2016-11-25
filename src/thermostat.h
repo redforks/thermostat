@@ -6,9 +6,13 @@
 #define DHT22_SAMPLE_RATE 3000
 
 #define DEFAULT_TEMPE_SETPOINT (204)
+#define TEMPE_SETPOINT_HIGH_LOW_MAX 10
+#define TEMPE_SETPOINT_HIGH_LOW_MIN 1
 #define TEMPE_SETPOINT_MAX 350 // min temperature setpoint
 #define TEMPE_SETPOINT_MIN 100 // max temperature setpoint
 #define TEMPE_SETPOINT_EEPROM_ADDRESS 0 // address of EEPROM to store temperature setpoint
+#define TEMPE_SETPOINT_HIGH_EEPROM_ADDRESS 2 // address of EEPROM to store temperature setpoint high
+#define TEMPE_SETPOINT_LOW_EEPROM_ADDRESS 3 // address of EEPROM to store temperature setpoint low
 
 #define HEATER_PIN 10
 #define HEATER_ACTION_DELAY (15*60) // minimal seconds to open/close heater, prevent switch heater too frequently.
