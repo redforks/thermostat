@@ -149,8 +149,7 @@ class SetupTimeMode : public SetupModeBase {
     tmElements_t tm;
 
     uint8_t getCurrentPartMax();
-    uint8_t getCurrentPartValue();
-    void setCurrentPartValue(uint8_t val);
+    uint8_t* getCurrentPart();
   protected:
     core::callback blinkCallback() override;
     void doBlink(bool showOrHide) override;

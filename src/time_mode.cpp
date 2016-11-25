@@ -55,44 +55,21 @@ void TimeMode::onClock() {
 const PROGMEM uint8_t timePartMins[TIME_PARTS] = {2010-1970, 1, 1, 1, 0, 0};
 const PROGMEM uint8_t timePartMaxs[TIME_PARTS] = {2050-1970, 12, 0, 7, 23, 59};
 
-uint8_t SetupTimeMode::getCurrentPartValue() {
+uint8_t* SetupTimeMode::getCurrentPart() {
   switch (currentPart) {
     case 0:
-      return tm.Year;
+      return &tm.Year;
     case 1:
-      return tm.Month;
+      return &tm.Month;
     case 2:
-      return tm.Day;
+      return &tm.Day;
     case 3:
-      return tm.Wday;
+      return &tm.Wday;
     case 4:
-      return tm.Hour;
+      return &tm.Hour;
     case 5:
-      return tm.Minute;
-  }
-  return 0;
-}
-
-void SetupTimeMode::setCurrentPartValue(uint8_t val) {
-  switch (currentPart) {
-    case 0:
-      tm.Year = val;
-      break;
-    case 1:
-      tm.Month = val;
-      break;
-    case 2:
-      tm.Day = val;
-      break;
-    case 3:
-      tm.Wday = val;
-      break;
-    case 4:
-      tm.Hour = val;
-      break;
-    case 5:
-      tm.Minute = val;
-      break;
+    default:
+      return &tm.Minute;
   }
 }
 
@@ -193,24 +170,24 @@ uint8_t SetupTimeMode::getCurrentPartMax() {
 }
 
 void SetupTimeMode::onUpKey() {
-  uint8_t val = getCurrentPartValue() + 1;
-  if (val > getCurrentPartMax()) {
-    val = timePartMins[currentPart];
+  uint8_t *pVal = getCurrentPart();
+  (*pVal) ++;
+  if (*pVal > getCurrentPartMax()) {
+    *pVal = timePartMins[currentPart];
   }
 
-  setCurrentPartValue(val);
   updateForAdjust();
 }
 
 void SetupTimeMode::onDownKey() {
-  uint8_t val = getCurrentPartValue();
-  if (val == timePartMins[currentPart]) {
-    val = getCurrentPartMax();
+  uint8_t *pVal = getCurrentPart();
+  // value can be zero, compare before (*pVal)-- 
+  if (*pVal == timePartMins[currentPart]) {
+    *pVal = getCurrentPartMax();
   } else {
-    val--;
+    (*pVal)--;
   }
 
-  setCurrentPartValue(val);
   updateForAdjust();
 }
 
