@@ -89,27 +89,32 @@ callback SetupTimeMode::blinkCallback() {
   return setupTimeModeOnBlink;
 }
 
-const PROGMEM uint8_t cursorPosByPart[TIME_PARTS][2] = {
-  {1, 0},
-  {6, 0},
-  {9, 0},
-  {12, 0},
-  {5, 1},
-  {8, 1}
-};
-
 void SetupTimeMode::doBlink(bool showOrHide) {
-  int16_t val = *getCurrentPart();
+  int8_t x, y;
+  int16_t val;
   switch (currentPart) {
     case 0:
-      val += 1970;
+      val = 1970 + tm.Year, x = 1, y = 0;
+      break;
+    case 1:
+      val = tm.Month, x = 6, y = 0;
+      break;
+    case 2:
+      val = tm.Day, x = 9, y = 0;
       break;
     case 3:
+      x = 12, y = 0;
       val = 1000;
+      break;
+    case 4:
+      val = tm.Hour, x = 5, y = 1;
+      break;
+    case 5:
+      val = tm.Minute, x = 8, y = 1;
       break;
   }
 
-  lcd.setCursor(cursorPosByPart[currentPart][0], cursorPosByPart[currentPart][1]);
+  lcd.setCursor(x, y);
 
   if (!showOrHide) {
     lcd.print(val > 100 ? F("    ") : F("  "));
@@ -151,21 +156,25 @@ void SetupTimeMode::onModeKey() {
   switchMode(timeMode);
 }
 
-const PROGMEM uint8_t monthDays[13] = {
-  // 1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12 
-  0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-};
-
 uint8_t SetupTimeMode::getCurrentPartMax() {
   if (currentPart != 2) {
     return timePartMaxs[currentPart];
   }
 
-  uint8_t days = monthDays[tm.Month];
-  if (tm.Month == 2 && (tm.Year + 1970) % 4 == 0) {
-    days++;
+  switch (tm.Month) {
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+    case 10:
+    case 12:
+      return 31;
+    case 2:
+      return ((tm.Year + 1970) % 4 == 0) ? 29 : 28;
+    default:
+      return 30;
   }
-  return days;
 }
 
 void SetupTimeMode::onUpKey() {
