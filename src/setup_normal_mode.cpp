@@ -3,13 +3,11 @@
 #include "tempe_control.h"
 #include "thermostat.h"
 
-using namespace core;
-
 void setupNormalModeOnBlink() {
   static_cast<SetupNormalMode*>(setupNormalMode)->onBlink();
 }
 
-callback SetupNormalMode::blinkCallback() {
+core::callback SetupNormalMode::blinkCallback() {
   return setupNormalModeOnBlink;
 }
 
@@ -57,4 +55,8 @@ void SetupNormalMode::onDownKey() {
   }
 
   updateForAdjust();
+}
+
+void SetupNormalMode::onSetupKey() {
+  switchMode(setupTempeHighLowMode);
 }

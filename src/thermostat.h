@@ -6,7 +6,7 @@
 #define DHT22_SAMPLE_RATE 3000
 
 #define DEFAULT_TEMPE_SETPOINT (204)
-#define TEMPE_SETPOINT_HIGH_LOW_MAX 10
+#define TEMPE_SETPOINT_HIGH_LOW_MAX 9
 #define TEMPE_SETPOINT_HIGH_LOW_MIN 1
 #define TEMPE_SETPOINT_MAX 350 // min temperature setpoint
 #define TEMPE_SETPOINT_MIN 100 // max temperature setpoint
