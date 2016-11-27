@@ -196,3 +196,17 @@ void setupDayScheduleMode();
 // return current display mode.
 DisplayMode *currentMode();
 
+// Return temperature high setpoint used in schedule mode.
+int16_t getScheduleHighTempeSetpoint();
+
+// Return temperature low setpoint used in schedule mode.
+int16_t getScheduleLowTempeSetpoint();
+
+// set temperature high setpoint used in schedule mode.
+void setScheduleHighTempeSetpoint(int16_t tempe);
+
+// set temperature low setpoint used in schedule mode.
+void setScheduleLowTempeSetpoint(int16_t tempe);
+
+// Setup low/high temperature setpoint.
+void setupScheduleTempeSetpoint();

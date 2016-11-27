@@ -4,6 +4,7 @@
 #include "thermostat.h"
 #include "read_temp_hum.h"
 #include "thermostat.h"
+#include "eeprom_helpers.h"
 
 using namespace core;
 
@@ -23,12 +24,11 @@ int16_t getTempeSetpoint() {
 }
 
 void initTempeSetpoint() {
-  int16_t val;
-  EEPROM.get(TEMPE_SETPOINT_EEPROM_ADDRESS, val);
-  if (val < 100 || val > 350) {
-    setTempeSetpoint(DEFAULT_TEMPE_SETPOINT);
-    return;
-  }
+  int16_t val = initEEPROMValue(
+      TEMPE_SETPOINT_EEPROM_ADDRESS,
+      TEMPE_SETPOINT_MIN,
+      TEMPE_SETPOINT_MAX,
+      DEFAULT_TEMPE_SETPOINT);
 
   store::setAnalog(idTempeSetpoint, val);
 }
@@ -69,20 +69,17 @@ void setTempeSetpointLow(uint8_t val) {
 }
 
 void initTempSetpointHighLow() {
-  uint8_t val;
-  EEPROM.get(TEMPE_SETPOINT_HIGH_EEPROM_ADDRESS, val);
-  if (val < TEMPE_SETPOINT_HIGH_LOW_MIN || val > TEMPE_SETPOINT_HIGH_LOW_MAX) {
-    setTempeSetpointHigh(2);
-  } else {
-    tempSetpointHigh = val;
-  }
+  tempSetpointHigh = initEEPROMValue<uint8_t>(
+      TEMPE_SETPOINT_HIGH_EEPROM_ADDRESS,
+      TEMPE_SETPOINT_HIGH_LOW_MIN,
+      TEMPE_SETPOINT_HIGH_LOW_MAX,
+      2);
 
-  EEPROM.get(TEMPE_SETPOINT_LOW_EEPROM_ADDRESS, val);
-  if (val < TEMPE_SETPOINT_HIGH_LOW_MIN || val > TEMPE_SETPOINT_HIGH_LOW_MAX) {
-    setTempeSetpointLow(3);
-  } else {
-    tempSetpointLow = val;
-  }
+  tempSetpointLow = initEEPROMValue<uint8_t>(
+      TEMPE_SETPOINT_LOW_EEPROM_ADDRESS,
+      TEMPE_SETPOINT_HIGH_LOW_MIN,
+      TEMPE_SETPOINT_HIGH_LOW_MAX,
+      3);
 }
 
 void setupTempeControl(void) {

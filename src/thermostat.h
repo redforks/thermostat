@@ -10,9 +10,12 @@
 #define TEMPE_SETPOINT_HIGH_LOW_MIN 1
 #define TEMPE_SETPOINT_MAX 350 // min temperature setpoint
 #define TEMPE_SETPOINT_MIN 100 // max temperature setpoint
+
 #define TEMPE_SETPOINT_EEPROM_ADDRESS 0 // address of EEPROM to store temperature setpoint
 #define TEMPE_SETPOINT_HIGH_EEPROM_ADDRESS 2 // address of EEPROM to store temperature setpoint high
 #define TEMPE_SETPOINT_LOW_EEPROM_ADDRESS 3 // address of EEPROM to store temperature setpoint low
+#define TEMPE_SCHEDULE_HIGH_TEMPE_ADDRESS 4 // address of EEPROM to store schedule high setpoint
+#define TEMPE_SCHEDULE_LOW_TEMPE_ADDRESS 6 // address of EEPROM to store schedule low setpoint
 
 #define HEATER_PIN 10
 #define HEATER_ACTION_DELAY (15*60) // minimal seconds to open/close heater, prevent switch heater too frequently.
