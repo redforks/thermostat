@@ -18,7 +18,7 @@ void SetupNormalMode::doBlink(bool showOrHide) {
     return;
   }
 
-  lcd.print("    ");
+  lcd.print(F("    "));
 }
 
 void SetupNormalMode::enterState() {
