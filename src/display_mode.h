@@ -106,9 +106,8 @@ class SetupNormalMode : public SetupModeBase {
 //   H: 0.2°C L: 0.3°C
 //
 // Config temperature setpoint high/low delta
-class SetupTempeHighLowMode : public SetupModeBase {
-  uint8_t high, low;
-  uint8_t curPart; // 0: high, 1: low
+class SetupTempeHysterMode : public SetupModeBase {
+  uint8_t hysteresis;
   protected:
     core::callback blinkCallback() override;
     void doBlink(bool showOrHide) override;
@@ -117,7 +116,6 @@ class SetupTempeHighLowMode : public SetupModeBase {
     void onModeKey() override;
     void onUpKey() override;
     void onDownKey() override;
-    void onSetupKey() override;
 };
 
 // time display mode
@@ -176,7 +174,7 @@ class DayScheduleMode : public NormalMode {
 
 extern DisplayMode *const normalMode;
 extern DisplayMode *const setupNormalMode;
-extern DisplayMode *const setupTempeHighLowMode;
+extern DisplayMode *const setupTempeHysterMode;
 extern DisplayMode *const timeMode;
 extern DisplayMode *const setupTimeMode;
 extern DisplayMode *const dayScheduleMode;

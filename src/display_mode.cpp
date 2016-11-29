@@ -9,14 +9,14 @@ using namespace core;
 
 NormalMode _normalMode;
 SetupNormalMode _setupNormalMode;
-SetupTempeHighLowMode _setupTempeHighLowMode;
+SetupTempeHysterMode _setupTempeHysterMode;
 TimeMode _timeMode;
 SetupTimeMode _setupTimeMode;
 DayScheduleMode _dayScheduleMode;
 
 DisplayMode *const normalMode = &_normalMode;
 DisplayMode *const setupNormalMode = &_setupNormalMode;
-DisplayMode *const setupTempeHighLowMode = &_setupTempeHighLowMode;
+DisplayMode *const setupTempeHysterMode = &_setupTempeHysterMode;
 DisplayMode *const timeMode = &_timeMode;
 DisplayMode *const setupTimeMode = &_setupTimeMode;
 DisplayMode *const dayScheduleMode = &_dayScheduleMode;

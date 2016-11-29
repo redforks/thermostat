@@ -61,5 +61,5 @@ void SetupNormalMode::onSetupKey() {
   SetupModeBase::onModeKey();
 
   setTempeSetpoint(setpoint);
-  switchMode(setupTempeHighLowMode);
+  switchMode(setupTempeHysterMode);
 }

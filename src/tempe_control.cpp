@@ -35,57 +35,39 @@ void initTempeSetpoint() {
 
 void temperatureLoop() {
   int16_t tempe = readTempe();
-  if (tempe >= (getTempeSetpoint() + getTempeSetpointHigh())) {
+  if (tempe >= (getTempeSetpoint() + getTempeHysteresis())) {
     store::setDigital(idHeaterReq, LOW);
-  } else if (tempe <= (getTempeSetpoint() - getTempeSetpointLow())) {
+  } else if (tempe <= (getTempeSetpoint() - getTempeHysteresis())) {
     store::setDigital(idHeaterReq, HIGH);
   }
 }
 
-uint8_t tempSetpointHigh, tempSetpointLow;
+uint8_t tempeHysteresis;
 
-uint8_t getTempeSetpointHigh() {
-  return tempSetpointHigh;
+uint8_t getTempeHysteresis() {
+  return tempeHysteresis;
 }
 
-uint8_t getTempeSetpointLow() {
-  return tempSetpointLow;
-}
-
-void setTempeSetpointHigh(uint8_t val) {
+void setTempeHysteresis(uint8_t val) {
   val = constrain(val, TEMPE_SETPOINT_HIGH_LOW_MIN, TEMPE_SETPOINT_HIGH_LOW_MAX);
-  if (tempSetpointHigh != val) {
-    tempSetpointHigh = val;
-    EEPROM.write(TEMPE_SETPOINT_HIGH_EEPROM_ADDRESS, val);
+  if (tempeHysteresis != val) {
+    tempeHysteresis = val;
+    EEPROM.write(TEMPE_SETPOINT_HYSTERESIS_EEPROM_ADDRESS, val);
   }
 } 
 
-void setTempeSetpointLow(uint8_t val) {
-  val = min(val, TEMPE_SETPOINT_HIGH_LOW_MAX);
-  if (tempSetpointLow != val) {
-    tempSetpointLow = val;
-    EEPROM.write(TEMPE_SETPOINT_LOW_EEPROM_ADDRESS, val);
-  }
-}
-
-void initTempSetpointHighLow() {
-  tempSetpointHigh = initEEPROMValue<uint8_t>(
-      TEMPE_SETPOINT_HIGH_EEPROM_ADDRESS,
+void initTempSetpointHyster() {
+  tempeHysteresis = initEEPROMValue<uint8_t>(
+      TEMPE_SETPOINT_HYSTERESIS_EEPROM_ADDRESS,
       TEMPE_SETPOINT_HIGH_LOW_MIN,
       TEMPE_SETPOINT_HIGH_LOW_MAX,
       2);
-
-  tempSetpointLow = initEEPROMValue<uint8_t>(
-      TEMPE_SETPOINT_LOW_EEPROM_ADDRESS,
-      TEMPE_SETPOINT_HIGH_LOW_MIN,
-      TEMPE_SETPOINT_HIGH_LOW_MAX,
-      3);
 }
 
 void setupTempeControl(void) {
   idTempeSetpoint = store::defineAnalog();
   initTempeSetpoint();
-  initTempSetpointHighLow();
+  initTempSetpointHyster();
 
   store::monitorAnalogs(temperatureLoop, 1, idTempe);
 }
