@@ -8,7 +8,7 @@
 using namespace core;
 
 NormalMode _normalMode;
-SetupNormalMode _setupNormalMode;
+SetupSetpointMode _setupSetpointMode;
 SetupTempeHysterMode _setupTempeHysterMode;
 TimeMode _timeMode;
 SetupTimeMode _setupTimeMode;
@@ -16,7 +16,7 @@ DayScheduleMode _dayScheduleMode;
 SetupMenuMode _setupMenuMode;
 
 DisplayMode *const normalMode = &_normalMode;
-DisplayMode *const setupNormalMode = &_setupNormalMode;
+DisplayMode *const setupSetpointMode = &_setupSetpointMode;
 DisplayMode *const setupTempeHysterMode = &_setupTempeHysterMode;
 DisplayMode *const timeMode = &_timeMode;
 DisplayMode *const setupTimeMode = &_setupTimeMode;

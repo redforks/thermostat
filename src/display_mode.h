@@ -88,7 +88,7 @@ class SetupModeBase : public DisplayMode {
 // Setup key, abort set return to NORMAL_MODE,
 // Mode key, save and return to NORMAL_MODE,
 // Up/Down key, inc/dec 0.1°C.
-class SetupNormalMode : public SetupModeBase {
+class SetupSetpointMode : public SetupModeBase {
     int16_t setpoint;
   protected:
     core::callback blinkCallback() override;
@@ -183,7 +183,7 @@ class SetupMenuMode : public DisplayMode {
 };
 
 extern DisplayMode *const normalMode;
-extern DisplayMode *const setupNormalMode;
+extern DisplayMode *const setupSetpointMode;
 extern DisplayMode *const setupTempeHysterMode;
 extern DisplayMode *const timeMode;
 extern DisplayMode *const setupTimeMode;

@@ -19,7 +19,7 @@ const __FlashStringHelper* getSetupMenuText(uint8_t idx) {
 }
 
 DisplayMode *const setupModes[SETUP_MENU_ITEMS] = {
-  setupNormalMode,
+  setupSetpointMode,
   setupTimeMode,
   setupTempeHysterMode,
   NULL,

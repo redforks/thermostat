@@ -4,14 +4,14 @@
 #include "thermostat.h"
 
 void setupNormalModeOnBlink() {
-  static_cast<SetupNormalMode*>(setupNormalMode)->onBlink();
+  static_cast<SetupSetpointMode*>(setupSetpointMode)->onBlink();
 }
 
-core::callback SetupNormalMode::blinkCallback() {
+core::callback SetupSetpointMode::blinkCallback() {
   return setupNormalModeOnBlink;
 }
 
-void SetupNormalMode::doBlink(bool showOrHide) {
+void SetupSetpointMode::doBlink(bool showOrHide) {
   lcd.setCursor(2, 1);
   if (showOrHide) {
     printNumber00n0(setpoint);
@@ -21,7 +21,7 @@ void SetupNormalMode::doBlink(bool showOrHide) {
   lcd.print(F("    "));
 }
 
-void SetupNormalMode::enterState() {
+void SetupSetpointMode::enterState() {
   lcd.print(F("SET TARGET TEMPE"));
   lcd.setCursor(6, 1);
   lcd.print(F("\337C"));
@@ -32,14 +32,14 @@ void SetupNormalMode::enterState() {
   SetupModeBase::enterState();
 }
 
-void SetupNormalMode::onModeKey() {
+void SetupSetpointMode::onModeKey() {
   SetupModeBase::onModeKey();
 
   setTempeSetpoint(setpoint);
   switchMode(normalMode);
 }
 
-void SetupNormalMode::onUpKey() {
+void SetupSetpointMode::onUpKey() {
   setpoint ++;
   if (setpoint > TEMPE_SETPOINT_MAX) {
     setpoint = TEMPE_SETPOINT_MIN;
@@ -48,7 +48,7 @@ void SetupNormalMode::onUpKey() {
   updateForAdjust();
 }
 
-void SetupNormalMode::onDownKey() {
+void SetupSetpointMode::onDownKey() {
   setpoint --;
   if (setpoint < TEMPE_SETPOINT_MIN) {
     setpoint = TEMPE_SETPOINT_MAX;
