@@ -263,7 +263,7 @@ void print2DigitsZero(int number);
 void printNumber00n0(uint16_t number);
 
 // callback registered 
-void setupDayScheduleMode();
+void setupDaySchedule();
 
 // return current display mode.
 DisplayMode *currentMode();

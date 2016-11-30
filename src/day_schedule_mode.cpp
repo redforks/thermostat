@@ -23,7 +23,7 @@ void dayScheduleOnRTCAlarm(tmElementsPtr_t tm) {
   }
 }
 
-void setupDayScheduleMode() {
+void setupDaySchedule() {
   static_cast<DayScheduleMode*>(dayScheduleMode)->init();
 
   tmElements_t when;
