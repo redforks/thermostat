@@ -22,7 +22,7 @@ DisplayMode *const setupModes[SETUP_MENU_ITEMS] = {
   setupSetpointMode,
   setupTimeMode,
   setupTempeHysterMode,
-  NULL,
+  setupScheduleHighLowMode,
   NULL
 };
 

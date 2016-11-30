@@ -14,6 +14,7 @@ TimeMode _timeMode;
 SetupTimeMode _setupTimeMode;
 DayScheduleMode _dayScheduleMode;
 SetupMenuMode _setupMenuMode;
+SetupScheduleHighLowMode _setupScheduleHighLowMode;
 
 DisplayMode *const normalMode = &_normalMode;
 DisplayMode *const setupSetpointMode = &_setupSetpointMode;
@@ -22,6 +23,7 @@ DisplayMode *const timeMode = &_timeMode;
 DisplayMode *const setupTimeMode = &_setupTimeMode;
 DisplayMode *const dayScheduleMode = &_dayScheduleMode;
 DisplayMode *const setupMenuMode = &_setupMenuMode;
+DisplayMode *const setupScheduleHighLowMode = &_setupScheduleHighLowMode;
 
 void DisplayMode::enterState() {
 }

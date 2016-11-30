@@ -171,7 +171,7 @@ class DayScheduleMode : public NormalMode {
 };
 
 class SetupMenuMode : public DisplayMode {
-    uint8_t curMenuItem;
+    int8_t curMenuItem;
 
     void updateMenuItem();
   public:
@@ -182,6 +182,20 @@ class SetupMenuMode : public DisplayMode {
     void onDownKey() override;
 };
 
+class SetupScheduleHighLowMode : public SetupModeBase {
+    uint16_t high, low;
+    uint8_t curPart;
+  protected:
+    core::callback blinkCallback() override;
+    void doBlink(bool showOrHide) override;
+  public:
+    void enterState() override;
+    void onModeKey() override;
+    void onUpKey() override;
+    void onDownKey() override;
+    void onSetupKey() override;
+};
+
 extern DisplayMode *const normalMode;
 extern DisplayMode *const setupSetpointMode;
 extern DisplayMode *const setupTempeHysterMode;
@@ -189,6 +203,7 @@ extern DisplayMode *const timeMode;
 extern DisplayMode *const setupTimeMode;
 extern DisplayMode *const dayScheduleMode;
 extern DisplayMode *const setupMenuMode;
+extern DisplayMode *const setupScheduleHighLowMode;
 
 void switchMode(DisplayMode *const mode);
 
