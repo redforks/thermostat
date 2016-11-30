@@ -4,7 +4,7 @@
 #include "thermostat.h"
 
 void setupNormalModeOnBlink() {
-  static_cast<SetupSetpointMode*>(setupSetpointMode)->onBlink();
+  setupSetpointMode->onBlink();
 }
 
 core::callback SetupSetpointMode::blinkCallback() {

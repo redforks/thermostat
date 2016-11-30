@@ -5,7 +5,7 @@
 #include "read_temp_hum.h"
 
 void dayScheduleOnRTCAlarm(tmElementsPtr_t tm) {
-  const Schedule &schedule = static_cast<DayScheduleMode*>(dayScheduleMode)->getSchedule();
+  const Schedule &schedule = dayScheduleMode->getSchedule();
 
   if (currentMode() != dayScheduleMode) {
     return;
@@ -24,7 +24,7 @@ void dayScheduleOnRTCAlarm(tmElementsPtr_t tm) {
 }
 
 void setupDaySchedule() {
-  static_cast<DayScheduleMode*>(dayScheduleMode)->init();
+  dayScheduleMode->init();
 
   tmElements_t when;
   when.Month = 255;

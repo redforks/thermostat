@@ -1,7 +1,7 @@
 #include "display_mode.h"
 
 void setupDayScheduleOnBlink() {
-  static_cast<SetupDayScheduleMode*>(setupDayScheduleMode)->onBlink();
+  setupDayScheduleMode->onBlink();
 }
 
 core::callback SetupDayScheduleMode::blinkCallback() {
@@ -37,7 +37,7 @@ void SetupDayScheduleMode::enterState() {
   lcd.setCursor(0, 1);
   lcd.print(F("Tempe: "));
 
-  schedule.assignFrom(static_cast<DayScheduleMode*>(dayScheduleMode)->getSchedule());
+  schedule.assignFrom(dayScheduleMode->getSchedule());
 
   chooseTempe = true;
   doBlink(true);
@@ -47,7 +47,7 @@ void SetupDayScheduleMode::enterState() {
 }
 
 void SetupDayScheduleMode::onModeKey() {
-  static_cast<DayScheduleMode*>(dayScheduleMode)->setSchedule(schedule);
+  dayScheduleMode->setSchedule(schedule);
 
   SetupModeBase::onModeKey();
 }

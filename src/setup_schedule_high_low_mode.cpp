@@ -2,7 +2,7 @@
 #include "thermostat.h"
 
 void setupScheduleHighLowModeOnBlink() {
-  static_cast<SetupScheduleHighLowMode*>(setupScheduleHighLowMode)->onBlink();
+  setupScheduleHighLowMode->onBlink();
 }
 
 core::callback SetupScheduleHighLowMode::blinkCallback() {

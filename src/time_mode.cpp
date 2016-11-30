@@ -76,7 +76,7 @@ uint8_t* SetupTimeMode::getCurrentPart() {
 }
 
 void setupTimeModeOnBlink() {
-  static_cast<SetupTimeMode*>(setupTimeMode)->onBlink();
+  setupTimeMode->onBlink();
 }
 
 callback SetupTimeMode::blinkCallback() {

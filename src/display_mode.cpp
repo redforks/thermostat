@@ -18,15 +18,15 @@ SetupMenuMode _setupMenuMode;
 SetupScheduleHighLowMode _setupScheduleHighLowMode;
 SetupDayScheduleMode _setupDayScheduleMode;
 
-DisplayMode *const normalMode = &_normalMode;
-DisplayMode *const setupSetpointMode = &_setupSetpointMode;
-DisplayMode *const setupTempeHysterMode = &_setupTempeHysterMode;
-DisplayMode *const timeMode = &_timeMode;
-DisplayMode *const setupTimeMode = &_setupTimeMode;
-DisplayMode *const dayScheduleMode = &_dayScheduleMode;
-DisplayMode *const setupMenuMode = &_setupMenuMode;
-DisplayMode *const setupScheduleHighLowMode = &_setupScheduleHighLowMode;
-DisplayMode *const setupDayScheduleMode = &_setupDayScheduleMode;
+NormalMode *const normalMode = &_normalMode;
+SetupSetpointMode *const setupSetpointMode = &_setupSetpointMode;
+SetupTempeHysterMode *const setupTempeHysterMode = &_setupTempeHysterMode;
+TimeMode *const timeMode = &_timeMode;
+SetupTimeMode *const setupTimeMode = &_setupTimeMode;
+DayScheduleMode *const dayScheduleMode = &_dayScheduleMode;
+SetupMenuMode *const setupMenuMode = &_setupMenuMode;
+SetupScheduleHighLowMode *const setupScheduleHighLowMode = &_setupScheduleHighLowMode;
+SetupDayScheduleMode *const setupDayScheduleMode = &_setupDayScheduleMode;
 
 void DisplayMode::enterState() {
 }

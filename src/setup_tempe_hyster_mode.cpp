@@ -4,7 +4,7 @@
 #include "thermostat.h"
 
 void setupTempeHighOnBlink() {
-  static_cast<SetupTempeHysterMode*>(setupTempeHysterMode)->onBlink();
+  setupTempeHysterMode->onBlink();
 }
 
 void SetupTempeHysterMode::doBlink(bool showOrHide) {

@@ -264,15 +264,15 @@ class SetupDayScheduleMode : public SetupModeBase {
     void onDownKey() override;
 };
 
-extern DisplayMode *const normalMode;
-extern DisplayMode *const setupSetpointMode;
-extern DisplayMode *const setupTempeHysterMode;
-extern DisplayMode *const timeMode;
-extern DisplayMode *const setupTimeMode;
-extern DisplayMode *const dayScheduleMode;
-extern DisplayMode *const setupMenuMode;
-extern DisplayMode *const setupScheduleHighLowMode;
-extern DisplayMode *const setupDayScheduleMode;
+extern NormalMode *const normalMode;
+extern SetupSetpointMode *const setupSetpointMode;
+extern SetupTempeHysterMode *const setupTempeHysterMode;
+extern TimeMode *const timeMode;
+extern SetupTimeMode *const setupTimeMode;
+extern DayScheduleMode *const dayScheduleMode;
+extern SetupMenuMode *const setupMenuMode;
+extern SetupScheduleHighLowMode *const setupScheduleHighLowMode;
+extern SetupDayScheduleMode *const setupDayScheduleMode;
 
 void switchMode(DisplayMode *const mode);
 
