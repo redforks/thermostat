@@ -98,7 +98,6 @@ class SetupNormalMode : public SetupModeBase {
     void onModeKey() override;
     void onUpKey() override;
     void onDownKey() override;
-    void onSetupKey() override;
 };
 
 // Display as

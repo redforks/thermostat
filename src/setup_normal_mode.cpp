@@ -56,10 +56,3 @@ void SetupNormalMode::onDownKey() {
 
   updateForAdjust();
 }
-
-void SetupNormalMode::onSetupKey() {
-  SetupModeBase::onModeKey();
-
-  setTempeSetpoint(setpoint);
-  switchMode(setupTempeHysterMode);
-}
