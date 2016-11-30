@@ -190,6 +190,8 @@ struct Schedule {
 
   // get high/low bit by section, section in range [0..47).
   bool get(uint8_t section) const;
+  // toggle section bit
+  void toggle(uint8_t section); 
 
   // load schedule from EEPROM
   void load(uint16_t address);
@@ -246,12 +248,18 @@ class SetupScheduleHighLowMode : public MultiItemSetupModeBase<2> {
 
 class SetupDayScheduleMode : public SetupModeBase {
     Schedule schedule;
+
+    uint8_t curSection;
+
+    // true if current change temperature, or change section.
+    bool chooseTempe;
   protected:
     core::callback blinkCallback() override;
     void doBlink(bool showOrHide) override;
   public:
     void enterState() override;
     void onModeKey() override;
+    void onSetupKey() override;
     void onUpKey() override;
     void onDownKey() override;
 };

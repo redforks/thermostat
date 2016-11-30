@@ -161,7 +161,14 @@ bool Schedule::get(uint8_t section) const {
   uint8_t bit_idx = section % 8;
 
   uint8_t byte = bits[arr_idx];
-  return (byte && (0x1 << bit_idx)) != 0;
+  return (byte & (0x1 << bit_idx)) != 0;
+}
+
+void Schedule::toggle(uint8_t section) {
+  uint8_t arr_idx = section / 8;
+  uint8_t bit_idx = section % 8;
+
+  bits[arr_idx] ^= 1 << bit_idx;
 }
 
 void Schedule::load(uint16_t address) {
