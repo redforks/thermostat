@@ -29,20 +29,14 @@ void SetupScheduleHighLowMode::onModeKey() {
 
 void SetupScheduleHighLowMode::onUpKey() {
   uint16_t *pVal = curPart == 0 ? &high : &low;
-  (*pVal) ++;
-  if (*pVal > TEMPE_SETPOINT_MAX) {
-    *pVal = TEMPE_SETPOINT_MIN;
-  }
+  *pVal = roundInc<uint16_t>(*pVal, TEMPE_SETPOINT_MIN, TEMPE_SETPOINT_MAX);
 
   updateForAdjust();
 }
 
 void SetupScheduleHighLowMode::onDownKey() {
   uint16_t *pVal = curPart == 0 ? &high : &low;
-  (*pVal) --;
-  if (*pVal < TEMPE_SETPOINT_MIN) {
-    *pVal = TEMPE_SETPOINT_MAX;
-  }
+  *pVal = roundDec<uint16_t>(*pVal, TEMPE_SETPOINT_MIN, TEMPE_SETPOINT_MAX);
 
   updateForAdjust();
 }

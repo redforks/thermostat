@@ -38,19 +38,13 @@ void SetupTempeHysterMode::onModeKey() {
 }
 
 void SetupTempeHysterMode::onUpKey() {
-  hysteresis++;
-  if (hysteresis > TEMPE_SETPOINT_HIGH_LOW_MAX) {
-    hysteresis = TEMPE_SETPOINT_HIGH_LOW_MIN;
-  }
+  hysteresis = roundInc<uint8_t>(hysteresis, TEMPE_SETPOINT_HIGH_LOW_MIN, TEMPE_SETPOINT_HIGH_LOW_MAX);
 
   updateForAdjust();
 }
 
 void SetupTempeHysterMode::onDownKey() {
-  hysteresis --;
-  if (hysteresis < TEMPE_SETPOINT_HIGH_LOW_MIN) {
-    hysteresis = TEMPE_SETPOINT_HIGH_LOW_MAX;
-  }
+  hysteresis = roundDec<uint8_t>(hysteresis, TEMPE_SETPOINT_HIGH_LOW_MIN, TEMPE_SETPOINT_HIGH_LOW_MAX);
 
   updateForAdjust();
 }

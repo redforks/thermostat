@@ -258,3 +258,22 @@ void setupScheduleTempeSetpoint();
 
 // Setup schedule temperature high low display mode.
 void setupScheduleHighLow();
+
+// Inc val, if greater than max, round back to min.
+template <typename T> T roundInc(T val, T min, T max) {
+  val ++;
+  if (val == max) {
+    val = min;
+  }
+  return val;
+}
+
+// Dec val, if less than min, round back to max.
+template <typename T> T roundDec(T val, T min, T max) {
+  // if type T is unsigned, and min is 0, `val --` will cause value goto max value of type T,
+  // compare first, before dec.
+  if (val <= min) {
+    val = max;
+  }
+  return val - 1;
+}

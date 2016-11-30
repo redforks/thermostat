@@ -169,22 +169,14 @@ uint8_t SetupTimeMode::getCurrentPartMax() {
 
 void SetupTimeMode::onUpKey() {
   uint8_t *pVal = getCurrentPart();
-  (*pVal) ++;
-  if (*pVal > getCurrentPartMax()) {
-    *pVal = timePartMins[curPart];
-  }
+  *pVal = roundInc(*pVal, timePartMins[curPart], getCurrentPartMax());
 
   updateForAdjust();
 }
 
 void SetupTimeMode::onDownKey() {
   uint8_t *pVal = getCurrentPart();
-  // value can be zero, compare before (*pVal)-- 
-  if (*pVal == timePartMins[curPart]) {
-    *pVal = getCurrentPartMax();
-  } else {
-    (*pVal)--;
-  }
+  *pVal = roundDec(*pVal, timePartMins[curPart], getCurrentPartMax());
 
   updateForAdjust();
 }

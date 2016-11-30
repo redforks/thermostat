@@ -45,18 +45,12 @@ void SetupMenuMode::onSetupKey() {
 }
 
 void SetupMenuMode::onUpKey() {
-  curMenuItem ++;
-  if (curMenuItem == SETUP_MENU_ITEMS) {
-    curMenuItem = 0;
-  }
+  curMenuItem = roundInc<int8_t>(curMenuItem, 0, SETUP_MENU_ITEMS);
   updateMenuItem();
 }
 
 void SetupMenuMode::onDownKey() {
-  curMenuItem --;
-  if (curMenuItem == -1) {
-    curMenuItem = SETUP_MENU_ITEMS - 1;
-  }
+  curMenuItem = roundDec<int8_t>(curMenuItem, 0, SETUP_MENU_ITEMS);
   updateMenuItem();
 }
 

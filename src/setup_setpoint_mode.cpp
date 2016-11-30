@@ -38,19 +38,13 @@ void SetupSetpointMode::onModeKey() {
 }
 
 void SetupSetpointMode::onUpKey() {
-  setpoint ++;
-  if (setpoint > TEMPE_SETPOINT_MAX) {
-    setpoint = TEMPE_SETPOINT_MIN;
-  }
+  setpoint = roundInc(setpoint, TEMPE_SETPOINT_MIN, TEMPE_SETPOINT_MAX);
 
   updateForAdjust();
 }
 
 void SetupSetpointMode::onDownKey() {
-  setpoint --;
-  if (setpoint < TEMPE_SETPOINT_MIN) {
-    setpoint = TEMPE_SETPOINT_MAX;
-  }
+  setpoint = roundDec(setpoint, TEMPE_SETPOINT_MIN, TEMPE_SETPOINT_MAX);
 
   updateForAdjust();
 }
