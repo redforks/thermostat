@@ -221,4 +221,4 @@ void setScheduleLowTempeSetpoint(int16_t tempe);
 void setupScheduleTempeSetpoint();
 
 // Setup schedule temperature high low display mode.
-void setupScheduleTempeHighLowMode();
+void setupScheduleHighLow();

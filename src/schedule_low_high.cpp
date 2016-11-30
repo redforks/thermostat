@@ -45,6 +45,6 @@ void setScheduleLowTempeSetpoint(int16_t val) {
   }
 }
 
-void setupScheduleTempeHighLowMode() {
+void setupScheduleHighLow() {
   setupScheduleTempeSetpoint();
 }

@@ -88,7 +88,7 @@ void setupDisplay(void) {
   store::monitorAnalogs(&onTempeSetpointChanges, 1, idTempeSetpoint);
 
   setupDayScheduleMode();
-  setupScheduleTempeHighLowMode();
+  setupScheduleHighLow();
 
   clock::delay(3000, &delayStart);
 }
