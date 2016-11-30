@@ -10,11 +10,11 @@ void dayScheduleOnRTCAlarm(tmElementsPtr_t tm) {
   }
 
   if (tm->Hour == 8) {
-    setTempeSetpoint(min(readTempe(), 204));
+    setTempeSetpoint(getScheduleLowTempeSetpoint());
   }
 
   if (tm->Hour == 16) {
-    setTempeSetpoint(204);
+    setTempeSetpoint(getScheduleHighTempeSetpoint());
   }
 }
 
