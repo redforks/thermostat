@@ -135,7 +135,7 @@ void SetupTimeMode::enterState() {
   lcd.print(F("     -  -"));
   lcd.setCursor(7, 1);
   lcd.print(':');
-  for (currentPart = 0; currentPart < TIME_PARTS; currentPart++) {
+  for (currentPart = 1; currentPart < TIME_PARTS; currentPart++) {
     doBlink(true);
   }
   currentPart = 0;
@@ -144,12 +144,10 @@ void SetupTimeMode::enterState() {
 }
 
 void SetupTimeMode::onModeKey() {
-  SetupModeBase::onModeKey();
-
   tm.Second = 0;
   setRtc(tm);
 
-  switchMode(timeMode);
+  SetupModeBase::onModeKey();
 }
 
 uint8_t SetupTimeMode::getCurrentPartMax() {

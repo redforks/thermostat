@@ -27,7 +27,6 @@ void SetupSetpointMode::enterState() {
   lcd.print(F("\337C"));
 
   setpoint = getTempeSetpoint();
-  doBlink(true);
 
   SetupModeBase::enterState();
 }
@@ -36,7 +35,6 @@ void SetupSetpointMode::onModeKey() {
   SetupModeBase::onModeKey();
 
   setTempeSetpoint(setpoint);
-  switchMode(normalMode);
 }
 
 void SetupSetpointMode::onUpKey() {

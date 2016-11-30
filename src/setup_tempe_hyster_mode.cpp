@@ -28,8 +28,6 @@ void SetupTempeHysterMode::enterState() {
 
   hysteresis = getTempeHysteresis();
 
-  doBlink(true);
-
   SetupModeBase::enterState();
 }
 
@@ -37,8 +35,6 @@ void SetupTempeHysterMode::onModeKey() {
   SetupModeBase::onModeKey();
 
   setTempeHysteresis(hysteresis);
-
-  switchMode(normalMode);
 }
 
 void SetupTempeHysterMode::onUpKey() {

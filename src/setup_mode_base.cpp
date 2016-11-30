@@ -9,10 +9,12 @@ void SetupModeBase::onLeaveMode() {
 
 void SetupModeBase::enterState() {
   blinkDelayHandler = clock::delay(500, blinkCallback());
+  doBlink(true);
 }
 
 void SetupModeBase::onModeKey() {
   onLeaveMode();
+  switchMode(normalMode);
 }
 
 void SetupModeBase::reScheduleBlink() {

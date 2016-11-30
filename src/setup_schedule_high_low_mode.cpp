@@ -17,8 +17,6 @@ void SetupScheduleHighLowMode::enterState() {
   high = getScheduleHighTempeSetpoint();
   low = getScheduleLowTempeSetpoint();
 
-  curPart = 0;
-  doBlink(true);
   curPart = 1;
   doBlink(true);
   curPart = 0;
@@ -31,7 +29,6 @@ void SetupScheduleHighLowMode::onModeKey() {
   setScheduleLowTempeSetpoint(low);
 
   SetupModeBase::onModeKey();
-  switchMode(normalMode);
 }
 
 void SetupScheduleHighLowMode::onUpKey() {
