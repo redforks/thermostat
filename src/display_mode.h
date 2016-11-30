@@ -307,6 +307,9 @@ void setupScheduleTempeSetpoint();
 // Setup schedule temperature high low display mode.
 void setupScheduleHighLow();
 
+// print hour and minute
+void printHourMin(uint8_t hour, uint8_t min);
+
 // Inc val, if greater than max, round back to min.
 template <typename T> T roundInc(T val, T min, T max) {
   val ++;

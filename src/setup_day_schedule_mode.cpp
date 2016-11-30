@@ -29,9 +29,7 @@ void SetupDayScheduleMode::doBlink(bool showOrHide) {
     return;
   }
 
-  print2DigitsZero(curSection / 2);
-  lcd.print(':');
-  print2DigitsZero(curSection % 2 == 0 ? 0 : 30);
+  printHourMin(curSection / 2, curSection % 2 == 0 ? 0 : 30);
 }
 
 void SetupDayScheduleMode::enterState() {

@@ -150,9 +150,7 @@ void NormalMode::onClock() {
   if (req == act) {
     lcd.setCursor(8, 1);
 
-    print2DigitsZero(now->Hour);
-    lcd.print(':');
-    print2DigitsZero(now->Minute);
+    printHourMin(now->Hour, now->Minute);
   }
 }
 
@@ -181,4 +179,10 @@ void Schedule::save(uint16_t address) const {
 
 void Schedule::assignFrom(const Schedule& from) {
   memcpy(bits, from.bits, sizeof(bits));
+}
+
+void printHourMin(uint8_t hour, uint8_t min) {
+  print2DigitsZero(hour);
+  lcd.print(':');
+  print2DigitsZero(min);
 }

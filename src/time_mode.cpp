@@ -46,9 +46,7 @@ void TimeMode::onClock() {
   lcd.print(getWeekDayName(now->Wday));
 
   lcd.setCursor(4, 1);
-  print2DigitsZero(now->Hour);
-  lcd.print(':');
-  print2DigitsZero(now->Minute);
+  printHourMin(now->Hour, now->Minute);
   lcd.print(':');
   print2DigitsZero(now->Second);
 }
