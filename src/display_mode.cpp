@@ -13,6 +13,7 @@ SetupTempeHysterMode _setupTempeHysterMode;
 TimeMode _timeMode;
 SetupTimeMode _setupTimeMode;
 DayScheduleMode _dayScheduleMode;
+SetupMenuMode _setupMenuMode;
 
 DisplayMode *const normalMode = &_normalMode;
 DisplayMode *const setupNormalMode = &_setupNormalMode;
@@ -20,6 +21,7 @@ DisplayMode *const setupTempeHysterMode = &_setupTempeHysterMode;
 DisplayMode *const timeMode = &_timeMode;
 DisplayMode *const setupTimeMode = &_setupTimeMode;
 DisplayMode *const dayScheduleMode = &_dayScheduleMode;
+DisplayMode *const setupMenuMode = &_setupMenuMode;
 
 void DisplayMode::enterState() {
 }
@@ -34,6 +36,7 @@ void DisplayMode::onDownKey() {
 }
 
 void DisplayMode::onSetupKey() {
+  switchMode(setupMenuMode);
 }
 
 void DisplayMode::onTempeHumiChanges() {
@@ -62,10 +65,6 @@ void NormalMode::enterState() {
 
 void NormalMode::onModeKey() {
   switchMode(timeMode);
-}
-
-void NormalMode::onSetupKey() {
-  switchMode(setupNormalMode);
 }
 
 void print2Digits(uint16_t number, char prefix) {

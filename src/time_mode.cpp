@@ -13,10 +13,6 @@ void TimeMode::onModeKey() {
   switchMode(dayScheduleMode);
 }
 
-void TimeMode::onSetupKey() {
-  switchMode(setupTimeMode);
-}
-
 const __FlashStringHelper* getWeekDayName(uint8_t wday) {
   switch (wday) {
     case 1:

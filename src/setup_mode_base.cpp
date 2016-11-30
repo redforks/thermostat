@@ -3,12 +3,16 @@
 
 using namespace core;
 
+void SetupModeBase::onLeaveMode() {
+  clock::removeDelay(blinkDelayHandler);
+}
+
 void SetupModeBase::enterState() {
   blinkDelayHandler = clock::delay(500, blinkCallback());
 }
 
 void SetupModeBase::onModeKey() {
-  clock::removeDelay(blinkDelayHandler);
+  onLeaveMode();
 }
 
 void SetupModeBase::reScheduleBlink() {
@@ -27,4 +31,10 @@ void SetupModeBase::onBlink() {
 void SetupModeBase::updateForAdjust() {
   doBlink(true);
   reScheduleBlink();
+}
+
+void SetupModeBase::onSetupKey() {
+  onLeaveMode();
+
+  DisplayMode::onSetupKey();
 }

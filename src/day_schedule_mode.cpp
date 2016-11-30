@@ -41,6 +41,3 @@ void DayScheduleMode::enterState() {
 void DayScheduleMode::onModeKey() {
   switchMode(normalMode);
 }
-
-void DayScheduleMode::onSetupKey() {
-}

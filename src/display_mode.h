@@ -49,7 +49,6 @@ class NormalMode : public DisplayMode {
   public:
     void enterState() override;
     void onModeKey() override;
-    void onSetupKey() override;
     void onTempeHumiChanges() override;
     void onTempeSetpointChanges() override;
     void onHeaterChanges() override;
@@ -61,6 +60,7 @@ class SetupModeBase : public DisplayMode {
     void* blinkDelayHandler;
 
     void reScheduleBlink();
+    void onLeaveMode();
   protected:
     // return callback function register as core::clock::delay
     virtual core::callback blinkCallback() = 0;
@@ -73,6 +73,7 @@ class SetupModeBase : public DisplayMode {
   public:
     void enterState() override;
     void onModeKey() override;
+    void onSetupKey() override;
 
     // onBlink is an internal method.
     void onBlink();
@@ -129,7 +130,6 @@ class TimeMode : public DisplayMode {
   public:
     void enterState() override;
     void onModeKey() override;
-    void onSetupKey() override;
     void onClock() override;
 };
 
@@ -169,7 +169,18 @@ class DayScheduleMode : public NormalMode {
   public:
     void enterState() override;
     void onModeKey() override;
+};
+
+class SetupMenuMode : public DisplayMode {
+    uint8_t curMenuItem;
+
+    void updateMenuItem();
+  public:
+    void enterState() override;
+    void onModeKey() override;
     void onSetupKey() override;
+    void onUpKey() override;
+    void onDownKey() override;
 };
 
 extern DisplayMode *const normalMode;
@@ -178,6 +189,7 @@ extern DisplayMode *const setupTempeHysterMode;
 extern DisplayMode *const timeMode;
 extern DisplayMode *const setupTimeMode;
 extern DisplayMode *const dayScheduleMode;
+extern DisplayMode *const setupMenuMode;
 
 void switchMode(DisplayMode *const mode);
 
