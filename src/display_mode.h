@@ -313,7 +313,7 @@ void printHourMin(uint8_t hour, uint8_t min);
 // Inc val, if greater than max, round back to min.
 template <typename T> T roundInc(T val, T min, T max) {
   val ++;
-  if (val == max) {
+  if (val > max) {
     val = min;
   }
   return val;
@@ -324,7 +324,7 @@ template <typename T> T roundDec(T val, T min, T max) {
   // if type T is unsigned, and min is 0, `val --` will cause value goto max value of type T,
   // compare first, before dec.
   if (val <= min) {
-    val = max;
+    return max;
   }
   return val - 1;
 }

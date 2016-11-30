@@ -42,12 +42,12 @@ void SetupMenuMode::onSetupKey() {
 }
 
 void SetupMenuMode::onUpKey() {
-  curMenuItem = roundInc<int8_t>(curMenuItem, 0, SETUP_MENU_ITEMS);
+  curMenuItem = roundInc<int8_t>(curMenuItem, 0, SETUP_MENU_ITEMS - 1);
   updateMenuItem();
 }
 
 void SetupMenuMode::onDownKey() {
-  curMenuItem = roundDec<int8_t>(curMenuItem, 0, SETUP_MENU_ITEMS);
+  curMenuItem = roundDec<int8_t>(curMenuItem, 0, SETUP_MENU_ITEMS - 1);
   updateMenuItem();
 }
 
