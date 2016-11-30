@@ -23,7 +23,7 @@ DisplayMode *const setupModes[SETUP_MENU_ITEMS] = {
   setupTimeMode,
   setupTempeHysterMode,
   setupScheduleHighLowMode,
-  NULL
+  setupDayScheduleMode
 };
 
 void SetupMenuMode::enterState() {
@@ -38,10 +38,7 @@ void SetupMenuMode::onModeKey() {
 
 void SetupMenuMode::onSetupKey() {
   DisplayMode *mode = setupModes[curMenuItem];
-  if (mode != NULL) {
-    // TODO: remove if if all setupModes items are not NULL.
-    switchMode(mode);
-  }
+  switchMode(mode);
 }
 
 void SetupMenuMode::onUpKey() {

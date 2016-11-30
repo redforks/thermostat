@@ -244,6 +244,18 @@ class SetupScheduleHighLowMode : public MultiItemSetupModeBase<2> {
     void onDownKey() override;
 };
 
+class SetupDayScheduleMode : public SetupModeBase {
+    Schedule schedule;
+  protected:
+    core::callback blinkCallback() override;
+    void doBlink(bool showOrHide) override;
+  public:
+    void enterState() override;
+    void onModeKey() override;
+    void onUpKey() override;
+    void onDownKey() override;
+};
+
 extern DisplayMode *const normalMode;
 extern DisplayMode *const setupSetpointMode;
 extern DisplayMode *const setupTempeHysterMode;
@@ -252,6 +264,7 @@ extern DisplayMode *const setupTimeMode;
 extern DisplayMode *const dayScheduleMode;
 extern DisplayMode *const setupMenuMode;
 extern DisplayMode *const setupScheduleHighLowMode;
+extern DisplayMode *const setupDayScheduleMode;
 
 void switchMode(DisplayMode *const mode);
 
