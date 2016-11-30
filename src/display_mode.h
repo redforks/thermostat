@@ -181,6 +181,26 @@ class SetupTimeMode : public MultiItemSetupModeBase<6> {
     void onDownKey() override;
 };
 
+// A day is divide to 48 section, each section is half of an hour.
+// A section is a bit in schedule variable. If bit is 0, than temperature
+// is schedule Low temperature, 1 is HIGH.
+// 00:00 at schedule[0] bit 0, 23:30 at schedule[1] bit 7.
+struct Schedule {
+  uint8_t bits[3];
+
+  // get high/low bit by section, section in range [0..47).
+  bool get(uint8_t section) const;
+
+  // load schedule from EEPROM
+  void load(uint16_t address);
+
+  // save schedule to EEPROM
+  void save(uint16_t address) const;
+
+  // assign schedule from another Schedule
+  void assignFrom(const Schedule& from);
+};
+
 // Display like Normal mode, but add "D" between temperature and humidity:
 //
 //   18.9°C   50.4%
@@ -188,9 +208,16 @@ class SetupTimeMode : public MultiItemSetupModeBase<6> {
 //
 // Day schedule change setpoint by RTC alarm.
 class DayScheduleMode : public NormalMode {
+    Schedule schedule;
   public:
     void enterState() override;
     void onModeKey() override;
+
+    const Schedule& getSchedule();
+    void setSchedule(const Schedule& newSchedule);
+
+    // load schedule from EEPROM
+    void init();
 };
 
 class SetupMenuMode : public DisplayMode {

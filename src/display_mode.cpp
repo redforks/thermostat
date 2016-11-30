@@ -1,4 +1,5 @@
 #include <Time.h>
+#include <EEPROM.h>
 #include <core.h>
 #include "display_mode.h"
 #include "read_temp_hum.h"
@@ -153,3 +154,22 @@ void NormalMode::onClock() {
   }
 }
 
+bool Schedule::get(uint8_t section) const {
+  uint8_t arr_idx = section / 8;
+  uint8_t bit_idx = section % 8;
+
+  uint8_t byte = bits[arr_idx];
+  return (byte && (0x1 << bit_idx)) != 0;
+}
+
+void Schedule::load(uint16_t address) {
+  EEPROM.get(address, bits);
+}
+
+void Schedule::save(uint16_t address) const {
+  EEPROM.put(address, bits);
+}
+
+void Schedule::assignFrom(const Schedule& from) {
+  memcpy(bits, from.bits, sizeof(bits));
+}
