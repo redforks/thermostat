@@ -56,12 +56,13 @@ class NormalMode : public DisplayMode {
 };
 
 class SetupModeBase : public DisplayMode {
-    bool blinkOn;
     void* blinkDelayHandler;
 
     void reScheduleBlink();
     void onLeaveMode();
   protected:
+    bool blinkOn;
+
     // return callback function register as core::clock::delay
     virtual core::callback blinkCallback() = 0;
 
@@ -77,6 +78,30 @@ class SetupModeBase : public DisplayMode {
 
     // onBlink is an internal method.
     void onBlink();
+};
+
+// SetupMode with multiple adjust items.
+template <int8_t ItemCounts> class MultiItemSetupModeBase : public SetupModeBase {
+  protected:
+    int8_t curPart;
+  public:
+    void enterState() {
+      // SetupMenuMode will call doBlink() on curPart == 0
+      for (curPart = 1; curPart < ItemCounts; curPart++) {
+        doBlink(true);
+      }
+      curPart = 0;
+      SetupModeBase::enterState();
+    }
+
+    void onSetupKey() override {
+      doBlink(true);
+      curPart = (curPart + 1) % ItemCounts;
+
+      // force newly focused value hidden, to make blink obviously.
+      blinkOn = false;
+      doBlink(false);
+    }
 };
 
 // Display as:
@@ -140,9 +165,8 @@ class TimeMode : public DisplayMode {
 //
 // Setup key, abort set return to NORMAL_MODE,
 // Mode key, save and return to NORMAL_MODE,
-class SetupTimeMode : public SetupModeBase {
+class SetupTimeMode : public MultiItemSetupModeBase<6> {
     // 0: year, 1:month, 2:day, 3:Week day, 4:Hour, 5:Minute
-    uint8_t currentPart;
     tmElements_t tm;
 
     uint8_t getCurrentPartMax();
@@ -155,7 +179,6 @@ class SetupTimeMode : public SetupModeBase {
     void onModeKey() override;
     void onUpKey() override;
     void onDownKey() override;
-    void onSetupKey() override;
 };
 
 // Display like Normal mode, but add "D" between temperature and humidity:
@@ -182,9 +205,8 @@ class SetupMenuMode : public DisplayMode {
     void onDownKey() override;
 };
 
-class SetupScheduleHighLowMode : public SetupModeBase {
+class SetupScheduleHighLowMode : public MultiItemSetupModeBase<2> {
     uint16_t high, low;
-    uint8_t curPart;
   protected:
     core::callback blinkCallback() override;
     void doBlink(bool showOrHide) override;
@@ -193,7 +215,6 @@ class SetupScheduleHighLowMode : public SetupModeBase {
     void onModeKey() override;
     void onUpKey() override;
     void onDownKey() override;
-    void onSetupKey() override;
 };
 
 extern DisplayMode *const normalMode;

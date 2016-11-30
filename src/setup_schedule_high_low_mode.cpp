@@ -17,18 +17,14 @@ void SetupScheduleHighLowMode::enterState() {
   high = getScheduleHighTempeSetpoint();
   low = getScheduleLowTempeSetpoint();
 
-  curPart = 1;
-  doBlink(true);
-  curPart = 0;
-
-  SetupModeBase::enterState();
+  MultiItemSetupModeBase::enterState();
 }
 
 void SetupScheduleHighLowMode::onModeKey() {
   setScheduleHighTempeSetpoint(high);
   setScheduleLowTempeSetpoint(low);
 
-  SetupModeBase::onModeKey();
+  MultiItemSetupModeBase::onModeKey();
 }
 
 void SetupScheduleHighLowMode::onUpKey() {
@@ -49,11 +45,6 @@ void SetupScheduleHighLowMode::onDownKey() {
   }
 
   updateForAdjust();
-}
-
-void SetupScheduleHighLowMode::onSetupKey() {
-  doBlink(true);
-  curPart = (curPart + 1) % 2;
 }
 
 void SetupScheduleHighLowMode::doBlink(bool showOrHide) {
