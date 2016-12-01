@@ -135,8 +135,22 @@ void delayStart() {
   clock::interval(1000, &onClock);
 }
 
+void setBrightness(uint8_t val) {
+  EEPROM.put(BRIGHTNESS_ADDRESS, val);
+  analogWrite(DISPLAY_BRIGHTNESS_PIN, val);
+}
+
+uint8_t getBrightness() {
+  return EEPROM.read(BRIGHTNESS_ADDRESS);
+}
+
+void restoreBrightness() {
+  setBrightness(getBrightness());
+}
+
 void setupDisplay(void) {
   lcd.begin(16, 2);
+  restoreBrightness();
 
   lcd.clear();
   lcd.print(F("Thermostat v2.0"));

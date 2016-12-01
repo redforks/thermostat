@@ -20,6 +20,7 @@
 #define TEMPE_SCHEDULE_LOW_TEMPE_ADDRESS 6 // address of EEPROM to store schedule low setpoint
 #define DAY_SCHEDULE_ADDRESS 8 // day schedule occupy 6 bytes
 #define SHUTDOWN_STATE_ADDRESS 14
+#define BRIGHTNESS_ADDRESS 15
 
 #define HEATER_PIN 10
 #define HEATER_ACTION_DELAY (15*60) // minimal seconds to open/close heater, prevent switch heater too frequently.
@@ -36,6 +37,7 @@
 #define DISPLAY_PIN4 2
 #define DISPLAY_PIN5 11
 #define DISPLAY_PIN6 12
+#define DISPLAY_BRIGHTNESS_PIN 9
 
 extern core::idType idTempe, idHumi, idTempeSetpoint;
 
@@ -45,7 +47,7 @@ extern core::idType idTempe, idHumi, idTempeSetpoint;
 extern core::idType idHeaterReq, idHeaterAct;
 
 #define KEY_MODE_PIN 7
-#define KEY_UP_PIN 9
+#define KEY_UP_PIN A1
 #define KEY_DOWN_PIN A0
 #define KEY_SETUP_PIN 13
 
