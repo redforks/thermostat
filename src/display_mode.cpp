@@ -18,6 +18,7 @@ SetupMenuMode _setupMenuMode;
 SetupScheduleHighLowMode _setupScheduleHighLowMode;
 SetupDayScheduleMode _setupDayScheduleMode;
 ShutdownMode _shutdownMode;
+SetupShutdownMode _setupShutdownMode;
 
 NormalMode *const normalMode = &_normalMode;
 SetupSetpointMode *const setupSetpointMode = &_setupSetpointMode;
@@ -29,6 +30,7 @@ SetupMenuMode *const setupMenuMode = &_setupMenuMode;
 SetupScheduleHighLowMode *const setupScheduleHighLowMode = &_setupScheduleHighLowMode;
 SetupDayScheduleMode *const setupDayScheduleMode = &_setupDayScheduleMode;
 ShutdownMode *const shutdownMode = &_shutdownMode;
+SetupShutdownMode *const setupShutdownMode = &_setupShutdownMode;
 
 void DisplayMode::enterState() {
 }

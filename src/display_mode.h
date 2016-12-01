@@ -282,6 +282,18 @@ class ShutdownMode : public DisplayMode {
     void onClock() override;
 };
 
+class SetupShutdownMode : public SetupModeBase {
+    bool shutdown;
+  protected:
+    core::callback blinkCallback() override;
+    void doBlink(bool showOrHide) override;
+  public:
+    void enterState() override;
+    void onModeKey() override;
+    void onUpKey() override;
+    void onDownKey() override;
+};
+
 extern NormalMode *const normalMode;
 extern SetupSetpointMode *const setupSetpointMode;
 extern SetupTempeHysterMode *const setupTempeHysterMode;
@@ -292,6 +304,7 @@ extern SetupMenuMode *const setupMenuMode;
 extern SetupScheduleHighLowMode *const setupScheduleHighLowMode;
 extern SetupDayScheduleMode *const setupDayScheduleMode;
 extern ShutdownMode *const shutdownMode;
+extern SetupShutdownMode *const setupShutdownMode;
 
 void switchMode(DisplayMode *const mode);
 
