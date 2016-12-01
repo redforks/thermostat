@@ -6,15 +6,6 @@
 
 extern LiquidCrystal lcd;
 
-// kind of DisplayMode types.
-enum ModeKind : uint8_t {
-  Initial, Normal, Time, DaySchedule, Shutdown,
-  SetupSetpoint, SetupTempeHyster, SetupTime,
-  SetupMenu, SetupScheduleHighLow, SetupDaySchedule,
-  ModeKindMin = Initial,
-  ModeKindMax = SetupDaySchedule,
-};
-
 // Handles difference of different display mode, define a sub class for each
 // display mode. In this base class, keyboard won't trigger any action.
 class DisplayMode {
@@ -28,7 +19,6 @@ class DisplayMode {
     virtual void onTempeSetpointChanges();
     virtual void onHeaterChanges();
     virtual void onClock();
-    virtual ModeKind kind() { return Initial; }
 };
 
 // normal display mode:
@@ -63,7 +53,6 @@ class NormalMode : public DisplayMode {
     void onTempeSetpointChanges() override;
     void onHeaterChanges() override;
     void onClock() override;
-    ModeKind kind() override { return Normal; }
 };
 
 class SetupModeBase : public DisplayMode {
@@ -134,7 +123,6 @@ class SetupSetpointMode : public SetupModeBase {
     void onModeKey() override;
     void onUpKey() override;
     void onDownKey() override;
-    ModeKind kind() override { return SetupSetpoint; }
 };
 
 // Display as
@@ -153,7 +141,6 @@ class SetupTempeHysterMode : public SetupModeBase {
     void onModeKey() override;
     void onUpKey() override;
     void onDownKey() override;
-    ModeKind kind() override { return SetupTempeHyster; }
 };
 
 // time display mode
@@ -168,7 +155,6 @@ class TimeMode : public DisplayMode {
     void enterState() override;
     void onModeKey() override;
     void onClock() override;
-    ModeKind kind() override { return Time; }
 };
 
 // time setup mode, display as TIME_MOD, but no second part. First blink
@@ -193,7 +179,6 @@ class SetupTimeMode : public MultiItemSetupModeBase<6> {
     void onModeKey() override;
     void onUpKey() override;
     void onDownKey() override;
-    ModeKind kind() override { return SetupTime; }
 };
 
 // A day is divide to 48 section, each section is half of an hour.
@@ -235,7 +220,6 @@ class DayScheduleMode : public NormalMode {
 
     // load schedule from EEPROM
     void init();
-    ModeKind kind() override { return DaySchedule; }
 };
 
 class SetupMenuMode : public DisplayMode {
@@ -248,7 +232,6 @@ class SetupMenuMode : public DisplayMode {
     void onSetupKey() override;
     void onUpKey() override;
     void onDownKey() override;
-    ModeKind kind() override { return SetupMenu; }
 };
 
 class SetupScheduleHighLowMode : public MultiItemSetupModeBase<2> {
@@ -261,7 +244,6 @@ class SetupScheduleHighLowMode : public MultiItemSetupModeBase<2> {
     void onModeKey() override;
     void onUpKey() override;
     void onDownKey() override;
-    ModeKind kind() override { return SetupScheduleHighLow; }
 };
 
 class SetupDayScheduleMode : public SetupModeBase {
@@ -280,7 +262,6 @@ class SetupDayScheduleMode : public SetupModeBase {
     void onSetupKey() override;
     void onUpKey() override;
     void onDownKey() override;
-    ModeKind kind() override { return SetupDaySchedule; }
 };
 
 // If enable shutdown mode in setup menu, show this display mode. Display as:
@@ -299,7 +280,6 @@ class ShutdownMode : public DisplayMode {
     void enterState() override;
     void onTempeHumiChanges() override;
     void onClock() override;
-    ModeKind kind() override { return Shutdown; }
 };
 
 extern NormalMode *const normalMode;
