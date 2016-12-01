@@ -46,9 +46,9 @@ void setupLog() {
   mySwitch.enableTransmit(TRANSMIT_PIN);
   mySwitch.setRepeatTransmit(10);
 
-  store::monitorDigitals(&sendHeater, 1, idHeaterAct);
+  store::monitorDigitals(sendHeater, 1, idHeaterAct);
   // wait 1 seconds, to send temperature and humidity for the first time,
   // read_temp_hum module delays 1 millisecond before doing first read.
-  clock::delay(1 * 1000, &sendTempeHumi);
-  clock::interval(TEMPE_HUMI_LOG_INTERVAL, &sendTempeHumi);
+  clock::delay(1 * 1000, sendTempeHumi);
+  clock::interval(TEMPE_HUMI_LOG_INTERVAL, sendTempeHumi);
 }

@@ -123,7 +123,7 @@ void startRtcAlarm() {
   // Start Rtc alarm interval at second zero align to rtc alarm resolution of 1
   // minute.
   // TODO: if user adjust RTC time, then this align is not effect.
-  core::clock::interval((int32_t)(60) * 1000, &checkAlarm); // check alarm every 60 seconds.
+  core::clock::interval((int32_t)(60) * 1000, checkAlarm); // check alarm every 60 seconds.
 }
 
 void *defineRtcAlarm(tmElements_t when, alarmFunc fn) {

@@ -128,16 +128,16 @@ void setupDisplay(void) {
   lcd.setCursor(2, 1);
   lcd.print(F("by Red Forks"));
 
-  store::monitorAnalogs(&onTempeHumiChanges, 2, idTempe, idHumi);
-  store::monitorDigitals(&onHeaterChanges, 2, idHeaterReq, idHeaterAct);
-  store::monitorDigitals(&onModeKey, 1, idKeyMode);
-  store::monitorDigitals(&onUpKey, 1, idKeyUp);
-  store::monitorDigitals(&onDownKey, 1, idKeyDown);
-  store::monitorDigitals(&onSetupKey, 1, idKeySetup);
-  store::monitorAnalogs(&onTempeSetpointChanges, 1, idTempeSetpoint);
+  store::monitorAnalogs(onTempeHumiChanges, 2, idTempe, idHumi);
+  store::monitorDigitals(onHeaterChanges, 2, idHeaterReq, idHeaterAct);
+  store::monitorDigitals(onModeKey, 1, idKeyMode);
+  store::monitorDigitals(onUpKey, 1, idKeyUp);
+  store::monitorDigitals(onDownKey, 1, idKeyDown);
+  store::monitorDigitals(onSetupKey, 1, idKeySetup);
+  store::monitorAnalogs(onTempeSetpointChanges, 1, idTempeSetpoint);
 
   setupDaySchedule();
   setupScheduleHighLow();
 
-  clock::delay(3000, &delayStart);
+  clock::delay(3000, delayStart);
 }

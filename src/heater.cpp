@@ -32,7 +32,7 @@ void switchHeater() {
   if (compareULong(HEATER_ACTION_DELAY, secondsSinceLastChange, HEATER_ACTION_DELAY) > 0) {
     currentSwitchHeaterDelay = clock::delay(
       (HEATER_ACTION_DELAY - secondsSinceLastChange) * 1000,
-      &doSwitchHeater);
+      doSwitchHeater);
 
     Serial.print(F("Ignore heater action, not reaching minimal heater action delay. "));
     Serial.println(secondsSinceLastChange);
