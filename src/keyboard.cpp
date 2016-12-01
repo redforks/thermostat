@@ -64,9 +64,5 @@ void checkKeys() {
 
     lastKeyChangeMillis[i] = now;
     store::setDigital(keyIds[i], state);
-
-    Serial.print(F("Key "));
-    Serial.print(i);
-    Serial.println(state == HIGH ? F(" down") : F(" up"));
   }
 }

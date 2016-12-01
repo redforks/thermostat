@@ -20,20 +20,6 @@ void setRtc(tmElements_t &now) {
     Serial.println(F("Set DS1307 time failed"));
     Serial.println();
   }
-
-  Serial.print(F("Set RTC to "));
-  Serial.print(1970 + now.Year);
-  Serial.print('-');
-  Serial.print(now.Month);
-  Serial.print('-');
-  Serial.print(now.Day);
-  Serial.print(' ');
-  Serial.print(now.Hour);
-  Serial.print(' ');
-  Serial.print(now.Minute);
-  Serial.print(' ');
-  Serial.print(now.Second);
-  Serial.println();
 }
 
 void setupRTC() {
@@ -107,7 +93,6 @@ void Queue::remove(Node *node) {
 Queue alarms;
 
 void checkAlarm() {
-  Serial.println("checkAlarm");
   tmElementsPtr_t now = rtcNow();
   for (Node *p = alarms.head; p != NULL; p = p->next) {
     if (p->when.Month != 255 && p->when.Month != now->Month) {
