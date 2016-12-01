@@ -264,6 +264,24 @@ class SetupDayScheduleMode : public SetupModeBase {
     void onDownKey() override;
 };
 
+// If enable shutdown mode in setup menu, show this display mode. Display as:
+//
+//   16.4°C   45.5% 
+//   Shutdown 10:06
+//
+// In this mode, temperature set to 5°C.
+//
+// Press mode button no effect. Press setup button show setup menu.
+//
+// If shutdown state set, switchMode() function show ShutdownMode if request to
+// other display modes (normalMode, timeMode, dayScheduleMode).
+class ShutdownMode : public DisplayMode {
+  public:
+    void enterState() override;
+    void onTempeHumiChanges() override;
+    void onClock() override;
+};
+
 extern NormalMode *const normalMode;
 extern SetupSetpointMode *const setupSetpointMode;
 extern SetupTempeHysterMode *const setupTempeHysterMode;
@@ -273,6 +291,7 @@ extern DayScheduleMode *const dayScheduleMode;
 extern SetupMenuMode *const setupMenuMode;
 extern SetupScheduleHighLowMode *const setupScheduleHighLowMode;
 extern SetupDayScheduleMode *const setupDayScheduleMode;
+extern ShutdownMode *const shutdownMode;
 
 void switchMode(DisplayMode *const mode);
 
