@@ -10,6 +10,7 @@
 #define TEMPE_SETPOINT_HIGH_LOW_MIN 1
 #define TEMPE_SETPOINT_MAX 350 // min temperature setpoint
 #define TEMPE_SETPOINT_MIN 100 // max temperature setpoint
+#define TEMPE_SHUTDOWN 50 // temperature setpoint if isShutdown()
 
 #define TEMPE_SETPOINT_EEPROM_ADDRESS 0 // address of EEPROM to store temperature setpoint
 #define TEMPE_SETPOINT_HYSTERESIS_EEPROM_ADDRESS 2 // address of EEPROM to store temperature setpoint hysteresis

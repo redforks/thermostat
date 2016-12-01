@@ -5,6 +5,7 @@
 #include "read_temp_hum.h"
 #include "thermostat.h"
 #include "eeprom_helpers.h"
+#include "shutdown.h"
 
 using namespace core;
 
@@ -20,6 +21,10 @@ void setTempeSetpoint(int16_t val) {
 }
 
 int16_t getTempeSetpoint() {
+  if (isShutdown()) {
+    return TEMPE_SHUTDOWN;
+  }
+
   return int16_t(store::analogs[idTempeSetpoint]);
 }
 
