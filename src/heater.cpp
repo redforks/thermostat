@@ -1,6 +1,7 @@
 #include <core.h>
 #include "heater.h"
 #include "thermostat.h"
+#include "shutdown.h"
 
 using namespace core;
 
@@ -29,7 +30,8 @@ void switchHeater() {
   uint32_t current = millis() / 1000;
   uint32_t secondsSinceLastChange = current - lastHeaterActionSeconds;
 
-  if (compareULong(HEATER_ACTION_DELAY, secondsSinceLastChange, HEATER_ACTION_DELAY) > 0) {
+  if ((compareULong(HEATER_ACTION_DELAY, secondsSinceLastChange, HEATER_ACTION_DELAY) > 0)
+      && !isShutdown()) {
     currentSwitchHeaterDelay = clock::delay(
       (HEATER_ACTION_DELAY - secondsSinceLastChange) * 1000,
       doSwitchHeater);
