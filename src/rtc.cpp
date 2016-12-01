@@ -119,11 +119,21 @@ void checkAlarm() {
   }
 }
 
+void startRtcAlarm() {
+  // Start Rtc alarm interval at second zero align to rtc alarm resolution of 1
+  // minute.
+  // TODO: if user adjust RTC time, then this align is not effect.
+  core::clock::interval((int32_t)(60) * 1000, &checkAlarm); // check alarm every 60 seconds.
+}
+
 void *defineRtcAlarm(tmElements_t when, alarmFunc fn) {
   static bool rtcHosted = false;
   if (!rtcHosted) {
     rtcHosted = true;
-    core::clock::interval(30 * 1000, &checkAlarm); // check alarm every 30 seconds.
+
+    int32_t delay = 60 - rtcNow()->Second;
+    delay %= 60;
+    core::clock::delay(delay * 1000, startRtcAlarm);
   }
 
   Node *node = new Node(when, fn);
