@@ -186,7 +186,7 @@ class SetupTimeMode : public MultiItemSetupModeBase<6> {
 // is schedule Low temperature, 1 is HIGH.
 // 00:00 at schedule[0] bit 0, 23:30 at schedule[1] bit 7.
 struct Schedule {
-  uint8_t bits[3];
+  uint8_t bits[6];
 
   // get high/low bit by section, section in range [0..47).
   bool get(uint8_t section) const;

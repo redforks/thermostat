@@ -39,6 +39,7 @@ void SetupDayScheduleMode::enterState() {
 
   schedule.assignFrom(dayScheduleMode->getSchedule());
 
+  curSection = 0;
   chooseTempe = true;
   doBlink(true);
   chooseTempe = false;
@@ -66,6 +67,10 @@ void SetupDayScheduleMode::onUpKey() {
     schedule.toggle(curSection);
   } else {
     curSection = roundInc<uint8_t>(curSection, 0, 47);
+
+    chooseTempe = true;
+    doBlink(true);
+    chooseTempe = false;
   }
 
   updateForAdjust();
@@ -76,6 +81,10 @@ void SetupDayScheduleMode::onDownKey() {
     schedule.toggle(curSection);
   } else {
     curSection = roundDec<uint8_t>(curSection, 0, 47);
+
+    chooseTempe = true;
+    doBlink(true);
+    chooseTempe = false;
   }
 
   updateForAdjust();
