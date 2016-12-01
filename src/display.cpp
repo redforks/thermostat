@@ -4,6 +4,7 @@
 #include "display.h"
 #include "thermostat.h"
 #include "display_mode.h"
+#include "shutdown.h"
 
 using namespace core;
 
@@ -34,17 +35,23 @@ void setLastDisplayMode(uint8_t mode) {
   EEPROM.write(LAST_DISPLAY_MODE_ADDRESS, mode);
 }
 
-void updateLastDisplayMode(DisplayMode *newMode) {
-  uint8_t mode = 255;
-  if (newMode == timeMode) {
-    mode = 1;
-  } else if (newMode == dayScheduleMode) {
-    mode = 2;
-  } else if (newMode == normalMode) {
-    mode = 0;
-  }
+#define NOT_DISPLAY_MODE 255
 
-  if (mode != 255) {
+uint8_t resolveDisplayKind(DisplayMode *mode) {
+  if (mode == normalMode) {
+    return 0;
+  } else if (mode == timeMode) {
+    return 1;
+  } else if (mode == dayScheduleMode) {
+    return 2;
+  }
+  return NOT_DISPLAY_MODE;
+}
+
+void updateLastDisplayMode(DisplayMode *newMode) {
+  uint8_t mode = resolveDisplayKind(newMode);
+
+  if (mode != NOT_DISPLAY_MODE) {
     setLastDisplayMode(mode);
   }
 }
@@ -64,6 +71,14 @@ void restoreLastDisplayMode() {
 }
 
 void switchMode(DisplayMode *newMode) {
+  if (isShutdown()) {
+    uint8_t kind = resolveDisplayKind(newMode);
+    if (kind != NOT_DISPLAY_MODE) {
+      // If shutdown, replace all non setup display to shutdownMode.
+      newMode = shutdownMode;
+    }
+  }
+
   if (newMode == mode) {
     return;
   }

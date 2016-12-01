@@ -17,7 +17,8 @@
 // Address 3 not used by historic reason, 
 #define TEMPE_SCHEDULE_HIGH_TEMPE_ADDRESS 4 // address of EEPROM to store schedule high setpoint
 #define TEMPE_SCHEDULE_LOW_TEMPE_ADDRESS 6 // address of EEPROM to store schedule low setpoint
-#define DAY_SCHEDULE_ADDRESS 8 // day schedule occupy 3 bytes
+#define DAY_SCHEDULE_ADDRESS 8 // day schedule occupy 6 bytes
+#define SHUTDOWN_STATE_ADDRESS 14
 
 #define HEATER_PIN 10
 #define HEATER_ACTION_DELAY (15*60) // minimal seconds to open/close heater, prevent switch heater too frequently.
