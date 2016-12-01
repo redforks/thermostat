@@ -294,6 +294,17 @@ class SetupShutdownMode : public SetupModeBase {
     void onDownKey() override;
 };
 
+class SetupBrightnessMode : public SetupModeBase {
+    uint8_t brightness; // 16 levels, * 16 get actual brighness.
+  protected:
+    core::callback blinkCallback() override;
+    void doBlink(bool showOrHide) override;
+  public:
+    void enterState() override;
+    void onUpKey() override;
+    void onDownKey() override;
+};
+
 extern NormalMode *const normalMode;
 extern SetupSetpointMode *const setupSetpointMode;
 extern SetupTempeHysterMode *const setupTempeHysterMode;
@@ -305,12 +316,17 @@ extern SetupScheduleHighLowMode *const setupScheduleHighLowMode;
 extern SetupDayScheduleMode *const setupDayScheduleMode;
 extern ShutdownMode *const shutdownMode;
 extern SetupShutdownMode *const setupShutdownMode;
+extern SetupBrightnessMode *const setupBrightnessMode;
 
 void switchMode(DisplayMode *const mode);
 
 // print number with 2 decimal digits, prefix with 0 if less than 10.
 // Assume number >= 0, number < 100.
 void print2DigitsZero(int number);
+//
+// print number with 2 decimal digits, prefix with ' ' if less than 10.
+// Assume number >= 0, number < 100.
+void print2DigitsSpace(uint16_t number);
 
 // print number like 12.5, store as 125.
 void printNumber00n0(uint16_t number);

@@ -1,6 +1,6 @@
 #include "display_mode.h"
 
-#define SETUP_MENU_ITEMS 6
+#define SETUP_MENU_ITEMS 7
 
 const __FlashStringHelper* getSetupMenuText(uint8_t idx) {
   switch (idx) {
@@ -16,6 +16,8 @@ const __FlashStringHelper* getSetupMenuText(uint8_t idx) {
       return F("Day Schedule ");
     case 5:
       return F("Shutdown     ");
+    case 6:
+      return F("Brightness   ");
   }
   return F("             ");
 }
@@ -27,6 +29,7 @@ DisplayMode *const setupModes[SETUP_MENU_ITEMS] = {
   setupScheduleHighLowMode,
   setupDayScheduleMode,
   setupShutdownMode,
+  setupBrightnessMode,
 };
 
 void SetupMenuMode::enterState() {

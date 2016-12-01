@@ -19,6 +19,7 @@ SetupScheduleHighLowMode _setupScheduleHighLowMode;
 SetupDayScheduleMode _setupDayScheduleMode;
 ShutdownMode _shutdownMode;
 SetupShutdownMode _setupShutdownMode;
+SetupBrightnessMode _setupBrightnessMode;
 
 NormalMode *const normalMode = &_normalMode;
 SetupSetpointMode *const setupSetpointMode = &_setupSetpointMode;
@@ -31,6 +32,7 @@ SetupScheduleHighLowMode *const setupScheduleHighLowMode = &_setupScheduleHighLo
 SetupDayScheduleMode *const setupDayScheduleMode = &_setupDayScheduleMode;
 ShutdownMode *const shutdownMode = &_shutdownMode;
 SetupShutdownMode *const setupShutdownMode = &_setupShutdownMode;
+SetupBrightnessMode *const setupBrightnessMode = &_setupBrightnessMode;
 
 void DisplayMode::enterState() {
 }
@@ -83,14 +85,10 @@ void print2Digits(uint16_t number, char prefix) {
   lcd.print(number);
 }
 
-// print number with 2 decimal digits, prefix with ' ' if less than 10.
-// Assume number >= 0, number < 100.
 void print2DigitsSpace(uint16_t number) {
   print2Digits(number, ' ');
 }
 
-// print number with 2 decimal digits, prefix with 0 if less than 10.
-// Assume number >= 0, number < 100.
 void print2DigitsZero(int number) {
   print2Digits(number, '0');
 }
