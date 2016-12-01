@@ -22,40 +22,43 @@ DisplayMode *currentMode() {
 //  1. on power up, switch to last power down display mode.
 //  2. close setup mode, return to last display mode.
 // 0: normal mode, 1: time mode, 2: day schedule mode
-uint8_t getLastDisplayMode() {
+ModeKind getLastDisplayMode() {
   uint8_t last = EEPROM.read(LAST_DISPLAY_MODE_ADDRESS);
-  if (last < 0 || last > 2) {
-    return 0;
+  if (last < ModeKindMin || last > ModeKindMax || last == Initial) {
+    return Normal;
   }
-  return last;
+  return (ModeKind)last;
 }
 
-void setLastDisplayMode(uint8_t mode) {
-  EEPROM.write(LAST_DISPLAY_MODE_ADDRESS, mode);
+void setLastDisplayMode(ModeKind mode) {
+  EEPROM.write(LAST_DISPLAY_MODE_ADDRESS, (uint8_t)mode);
 }
 
 void updateLastDisplayMode(DisplayMode *newMode) {
-  uint8_t mode = 255;
-  if (newMode == timeMode) {
-    mode = 1;
-  } else if (newMode == dayScheduleMode) {
-    mode = 2;
-  } else if (newMode == normalMode) {
-    mode = 0;
+  ModeKind mode;
+  switch (newMode->kind()) {
+    case Normal:
+    case Time:
+    case DaySchedule:
+      mode = newMode->kind();
+      break;
+    default:
+      mode = (ModeKind)(ModeKindMax + 1);
+      break;
   }
 
-  if (mode != 255) {
+  if (mode != ModeKindMax + 1) {
     setLastDisplayMode(mode);
   }
 }
 
 void restoreLastDisplayMode() {
-  uint8_t mode = getLastDisplayMode();
+  ModeKind mode = getLastDisplayMode();
   switch (mode) {
-    case 1:
+    case Time:
       switchMode(timeMode);
       break;
-    case 2:
+    case DaySchedule:
       switchMode(dayScheduleMode);
       break;
     default:
