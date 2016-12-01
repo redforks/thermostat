@@ -310,6 +310,9 @@ void setupScheduleHighLow();
 // print hour and minute
 void printHourMin(uint8_t hour, uint8_t min);
 
+// restore last shown display mode, see display.cpp for details.
+void restoreLastDisplayMode();
+
 // Inc val, if greater than max, round back to min.
 template <typename T> T roundInc(T val, T min, T max) {
   val ++;

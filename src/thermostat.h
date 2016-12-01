@@ -13,6 +13,7 @@
 
 #define TEMPE_SETPOINT_EEPROM_ADDRESS 0 // address of EEPROM to store temperature setpoint
 #define TEMPE_SETPOINT_HYSTERESIS_EEPROM_ADDRESS 2 // address of EEPROM to store temperature setpoint hysteresis
+#define LAST_DISPLAY_MODE_ADDRESS 3 // address of display mode, on startup, restore display mode of power off
 // Address 3 not used by historic reason, 
 #define TEMPE_SCHEDULE_HIGH_TEMPE_ADDRESS 4 // address of EEPROM to store schedule high setpoint
 #define TEMPE_SCHEDULE_LOW_TEMPE_ADDRESS 6 // address of EEPROM to store schedule low setpoint

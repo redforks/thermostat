@@ -33,7 +33,7 @@ void SetupMenuMode::enterState() {
 }
 
 void SetupMenuMode::onModeKey() {
-  switchMode(normalMode);
+  restoreLastDisplayMode();
 }
 
 void SetupMenuMode::onSetupKey() {

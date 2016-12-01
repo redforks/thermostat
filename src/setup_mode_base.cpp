@@ -14,7 +14,7 @@ void SetupModeBase::enterState() {
 
 void SetupModeBase::onModeKey() {
   onLeaveMode();
-  switchMode(normalMode);
+  restoreLastDisplayMode();
 }
 
 void SetupModeBase::reScheduleBlink() {

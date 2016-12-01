@@ -1,3 +1,4 @@
+#include <EEPROM.h>
 #include <core.h>
 #include <LiquidCrystal.h>
 #include "display.h"
@@ -16,10 +17,58 @@ DisplayMode *currentMode() {
   return mode;
 }
 
+// Last display mode used in:
+//
+//  1. on power up, switch to last power down display mode.
+//  2. close setup mode, return to last display mode.
+// 0: normal mode, 1: time mode, 2: day schedule mode
+uint8_t getLastDisplayMode() {
+  uint8_t last = EEPROM.read(LAST_DISPLAY_MODE_ADDRESS);
+  if (last < 0 || last > 2) {
+    return 0;
+  }
+  return last;
+}
+
+void setLastDisplayMode(uint8_t mode) {
+  EEPROM.write(LAST_DISPLAY_MODE_ADDRESS, mode);
+}
+
+void updateLastDisplayMode(DisplayMode *newMode) {
+  uint8_t mode = 255;
+  if (newMode == timeMode) {
+    mode = 1;
+  } else if (newMode == dayScheduleMode) {
+    mode = 2;
+  } else if (newMode == normalMode) {
+    mode = 0;
+  }
+
+  if (mode != 255) {
+    setLastDisplayMode(mode);
+  }
+}
+
+void restoreLastDisplayMode() {
+  uint8_t mode = getLastDisplayMode();
+  switch (mode) {
+    case 1:
+      switchMode(timeMode);
+      break;
+    case 2:
+      switchMode(dayScheduleMode);
+      break;
+    default:
+      switchMode(normalMode);
+  }
+}
+
 void switchMode(DisplayMode *newMode) {
   if (newMode == mode) {
     return;
   }
+
+  updateLastDisplayMode(newMode);
 
   mode = newMode;
   lcd.clear();
@@ -67,7 +116,7 @@ void onTempeSetpointChanges() {
 }
 
 void delayStart() {
-  switchMode(normalMode);
+  restoreLastDisplayMode();
   clock::interval(1000, &onClock);
 }
 
