@@ -123,7 +123,6 @@ void *defineRtcAlarm(tmElements_t when, alarmFunc fn) {
   static bool rtcHosted = false;
   if (!rtcHosted) {
     rtcHosted = true;
-    Serial.println("Host RTC alarm");
     core::clock::interval(30 * 1000, &checkAlarm); // check alarm every 30 seconds.
   }
 
