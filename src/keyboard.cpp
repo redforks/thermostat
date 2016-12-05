@@ -12,7 +12,7 @@ idType idKeyMode, idKeyUp, idKeyDown, idKeySetup;
 
 void setupKeyboard() {
   for (int i = 0; i < BUTTONS; i++) {
-    pinMode(keyPins[i], INPUT);
+    pinMode(keyPins[i], INPUT_PULLUP);
     keyIds[i] = store::defineDigital();
   }
 
@@ -25,12 +25,12 @@ void setupKeyboard() {
 void *keyRepeatIntervalHandler = NULL;
 
 void repeatUpDownKeys() {
-  if (digitalRead(KEY_DOWN_PIN) == HIGH) {
+  if (digitalRead(KEY_DOWN_PIN) == LOW) { // low if key pressed
     store::setDigital(idKeyDown, LOW);
     store::setDigital(idKeyDown, HIGH);
   }
 
-  if (digitalRead(KEY_UP_PIN) == HIGH) {
+  if (digitalRead(KEY_UP_PIN) == LOW) { // low if key pressed
     store::setDigital(idKeyUp, LOW);
     store::setDigital(idKeyUp, HIGH);
   }
@@ -40,6 +40,12 @@ void checkKeys() {
   uint32_t now = millis();
   for (int i = 0; i < BUTTONS; i++) {
     uint8_t state = digitalRead(keyPins[i]);
+    // low if key pressed
+    if (state == HIGH) {
+      state = LOW;
+    } else {
+      state = HIGH;
+    }
 
     uint32_t delta = now - lastKeyChangeMillis[i];
 

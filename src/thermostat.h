@@ -46,9 +46,9 @@ extern core::idType idTempe, idHumi, idTempeSetpoint;
 // idHeaterAct digtial value is the heater actual state.
 extern core::idType idHeaterReq, idHeaterAct;
 
-#define KEY_MODE_PIN 7
-#define KEY_UP_PIN A1
-#define KEY_DOWN_PIN A0
-#define KEY_SETUP_PIN 13
+#define KEY_MODE_PIN 5
+#define KEY_UP_PIN 4
+#define KEY_DOWN_PIN 3
+#define KEY_SETUP_PIN 2
 
 extern core::idType idKeyMode, idKeyUp, idKeyDown, idKeySetup;
