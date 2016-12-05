@@ -31,12 +31,6 @@
 // Log temperature and humidity every 5mins
 #define TEMPE_HUMI_LOG_INTERVAL ((uint32_t)5 * 60 * 1000)
 
-#define DISPLAY_PIN1 5
-#define DISPLAY_PIN2 4
-#define DISPLAY_PIN3 3
-#define DISPLAY_PIN4 2
-#define DISPLAY_PIN5 11
-#define DISPLAY_PIN6 12
 #define DISPLAY_BRIGHTNESS_PIN 9
 
 extern core::idType idTempe, idHumi, idTempeSetpoint;

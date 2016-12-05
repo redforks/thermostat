@@ -1,10 +1,10 @@
 #pragma once
 
 #include <Time.h>
-#include <LiquidCrystal.h>
+#include <LiquidCrystal_I2C.h>
 #include <core.h>
 
-extern LiquidCrystal lcd;
+extern LiquidCrystal_I2C lcd;
 
 // Handles difference of different display mode, define a sub class for each
 // display mode. In this base class, keyboard won't trigger any action.

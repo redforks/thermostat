@@ -1,6 +1,6 @@
 #include <EEPROM.h>
 #include <core.h>
-#include <LiquidCrystal.h>
+#include <LiquidCrystal_I2C.h>
 #include "display.h"
 #include "thermostat.h"
 #include "display_mode.h"
@@ -8,7 +8,7 @@
 
 using namespace core;
 
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+LiquidCrystal_I2C lcd(0x27, 16, 2); // set LCD I2C address 0x27, 16 chars wide, 2 lines
 
 DisplayMode _initialMode;
 
@@ -149,7 +149,7 @@ void restoreBrightness() {
 }
 
 void setupDisplay(void) {
-  lcd.begin(16, 2);
+  lcd.begin();
   restoreBrightness();
 
   lcd.clear();
