@@ -28,6 +28,14 @@
 // pin connect to 315/433 transmitter
 #define TRANSMIT_PIN 8
 
+// RF24 using SPI, CSN alternative name of SS (Slave select), don't what is CE
+// pin.
+#define RF24_CE_PIN 7
+#define RF24_CSN_PIN 8
+#define SPI_SCK_PIN 13  
+#define SPI_MOSI_PIN 11
+#define SPI_MISO_PIN 12
+
 // Log temperature and humidity every 5mins
 #define TEMPE_HUMI_LOG_INTERVAL ((uint32_t)5 * 60 * 1000)
 
