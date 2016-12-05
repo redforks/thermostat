@@ -2,7 +2,7 @@
 
 #include <core.h>
 
-#define DHT22_PIN 6
+#define DHT22_PIN 10
 #define DHT22_SAMPLE_RATE 3000
 
 #define DEFAULT_TEMPE_SETPOINT (204)
@@ -22,7 +22,7 @@
 #define SHUTDOWN_STATE_ADDRESS 14
 #define BRIGHTNESS_ADDRESS 15
 
-#define HEATER_PIN 10
+#define HEATER_PIN 9
 #define HEATER_ACTION_DELAY (15*60) // minimal seconds to open/close heater, prevent switch heater too frequently.
 
 // pin connect to 315/433 transmitter
