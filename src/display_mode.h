@@ -294,8 +294,8 @@ class SetupShutdownMode : public SetupModeBase {
     void onDownKey() override;
 };
 
-class SetupBrightnessMode : public SetupModeBase {
-    uint8_t brightness; // 16 levels, * 16 get actual brighness.
+class SetupBacklightMode : public SetupModeBase {
+    bool onOrOff;
   protected:
     core::callback blinkCallback() override;
     void doBlink(bool showOrHide) override;
@@ -316,7 +316,7 @@ extern SetupScheduleHighLowMode *const setupScheduleHighLowMode;
 extern SetupDayScheduleMode *const setupDayScheduleMode;
 extern ShutdownMode *const shutdownMode;
 extern SetupShutdownMode *const setupShutdownMode;
-extern SetupBrightnessMode *const setupBrightnessMode;
+extern SetupBacklightMode *const setupBacklightMode;
 
 void switchMode(DisplayMode *const mode);
 

@@ -135,17 +135,22 @@ void delayStart() {
   clock::interval(1000, &onClock);
 }
 
-void setBrightness(uint8_t val) {
-  EEPROM.put(BRIGHTNESS_ADDRESS, val);
-  analogWrite(DISPLAY_BRIGHTNESS_PIN, val);
+void setBacklight(bool onOrOff) {
+  if (onOrOff) {
+    lcd.backlight();
+  } else {
+    lcd.noBacklight();
+  }
+
+  EEPROM.put(BRIGHTNESS_ADDRESS, onOrOff ? 1 : 0);
 }
 
-uint8_t getBrightness() {
-  return EEPROM.read(BRIGHTNESS_ADDRESS);
+bool getBacklight() {
+  return EEPROM.read(BRIGHTNESS_ADDRESS) != 0;
 }
 
 void restoreBrightness() {
-  setBrightness(getBrightness());
+  setBacklight(getBacklight());
 }
 
 void setupDisplay(void) {

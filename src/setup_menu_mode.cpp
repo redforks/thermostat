@@ -17,7 +17,7 @@ const __FlashStringHelper* getSetupMenuText(uint8_t idx) {
     case 5:
       return F("Shutdown     ");
     case 6:
-      return F("Brightness   ");
+      return F("Backlight   ");
   }
   return F("             ");
 }
@@ -29,7 +29,7 @@ DisplayMode *const setupModes[SETUP_MENU_ITEMS] = {
   setupScheduleHighLowMode,
   setupDayScheduleMode,
   setupShutdownMode,
-  setupBrightnessMode,
+  setupBacklightMode,
 };
 
 void SetupMenuMode::enterState() {

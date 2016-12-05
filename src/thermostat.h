@@ -31,8 +31,6 @@
 // Log temperature and humidity every 5mins
 #define TEMPE_HUMI_LOG_INTERVAL ((uint32_t)5 * 60 * 1000)
 
-#define DISPLAY_BRIGHTNESS_PIN 9
-
 extern core::idType idTempe, idHumi, idTempeSetpoint;
 
 // Set digital value idHeaterReq to turn on/off, heater module
