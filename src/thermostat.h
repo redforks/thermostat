@@ -2,7 +2,7 @@
 
 #include <core.h>
 
-#define DHT22_PIN 10
+#define DHT22_PIN 6
 #define DHT22_SAMPLE_RATE 3000
 
 #define DEFAULT_TEMPE_SETPOINT (204)
