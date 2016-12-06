@@ -11,7 +11,6 @@ dht DHT;
 
 // Return false if read failed.
 bool doReadDHT22() {
-  delay(2);  // TODO: it seems DHT not stable without this delay
   int chk = DHT.read22(DHT22_PIN);
 
   switch (chk) {
@@ -76,6 +75,15 @@ void updateTemperature(int16_t temp) {
   setTempe(tempeSum / TEMPE_HISTORY);
 }
 
+void readDHT22() {
+  if (!doReadDHT22()) {
+    return;
+  }
+
+  updateTemperature(DHT.temperature);
+  updateHumidity(DHT.humidity);
+}
+
 void readTempeHumiFirstTime() {
   int16_t tempe = getTempeSetpoint();
   uint16_t humi = 500;
@@ -92,15 +100,8 @@ void readTempeHumiFirstTime() {
 
   updateTemperature(tempe);
   updateHumidity(humi);
-}
 
-void readDHT22() {
-  if (!doReadDHT22()) {
-    return;
-  }
-
-  updateTemperature(DHT.temperature);
-  updateHumidity(DHT.humidity);
+  clock::interval(DHT22_SAMPLE_RATE, readDHT22);
 }
 
 void setupThemeHumi(void) {
@@ -109,9 +110,8 @@ void setupThemeHumi(void) {
 
   setTempe(getTempeSetpoint());
 
-  clock::interval(DHT22_SAMPLE_RATE, readDHT22);
-
   // At this time, no other modules hooks idTempe & idHumi,
   // delays inital read, to trigger interested modules.
-  clock::delay(1, readTempeHumiFirstTime);
+  // DHT22 datasheet said, should not read DHT22 in first second after power up.
+  clock::delay(1500, readTempeHumiFirstTime);
 }
