@@ -18,8 +18,6 @@ void sendTempe() {
   // 0x21, type is 01, signed int transfered as unsigned int, value id is 01.
   uint32_t token = 0x210000 + tempe;
   // send as 32bit, receiver will drop first 8bit, for lower transfer error.
-  Serial.println(F("Sending tempe"));
-  delay(1);
   if (!radio.write(&token, sizeof(token))) {
     Serial.println(F("Send tempe failed"));
   }
@@ -33,7 +31,6 @@ void sendHumi() {
   uint32_t token = 0x410000 + humi;
 
   // send as 32bit, receiver will drop first 8bit, for lower transfer error.
-  Serial.println(F("Sending humi"));
   if (!radio.write(&token, sizeof(token))) {
     Serial.println(F("Send humi failed"));
   }
@@ -45,7 +42,6 @@ void sendHeater() {
   uint32_t token = 0x610000 + (isOpen ? 1 : 0);
 
   // send as 32bit, receiver will drop first 8bit, for lower transfer error.
-  Serial.println(F("Sending heater switch"));
   if (!radio.write(&token, sizeof(token))) {
     Serial.println(F("Send heater failed"));
   }
