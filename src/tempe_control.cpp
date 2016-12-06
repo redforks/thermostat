@@ -74,5 +74,5 @@ void setupTempeControl(void) {
   initTempeSetpoint();
   initTempSetpointHyster();
 
-  store::monitorAnalogs(temperatureLoop, 1, idTempe);
+  store::monitorAnalogs(temperatureLoop, 2, idTempe, idTempeSetpoint);
 }
