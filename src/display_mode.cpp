@@ -72,6 +72,7 @@ void NormalMode::enterState() {
   onHeaterChanges();
   onClock();
   onTempeSetpointChanges();
+  setTempeSetpoint(getTempeEEPOMSetpoint(), true);
 }
 
 void NormalMode::onModeKey() {

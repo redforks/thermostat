@@ -11,31 +11,31 @@ using namespace core;
 
 idType idTempeSetpoint;
 
-void setTempeSetpoint(int16_t val) {
+void setTempeSetpoint(int16_t val, bool notUpdateEEPOM) {
   val = constrain(val, TEMPE_SETPOINT_MIN, TEMPE_SETPOINT_MAX);
 
   if (val != getTempeSetpoint()) {
-    EEPROM.put(TEMPE_SETPOINT_EEPROM_ADDRESS, val);
+    if (!notUpdateEEPOM) {
+      EEPROM.put(TEMPE_SETPOINT_EEPROM_ADDRESS, val);
+    }
     store::setAnalog(idTempeSetpoint, val);
   }
 }
 
 int16_t getTempeSetpoint() {
-  if (isShutdown()) {
-    return TEMPE_SHUTDOWN;
-  }
-
   return int16_t(store::analogs[idTempeSetpoint]);
 }
 
-void initTempeSetpoint() {
-  int16_t val = initEEPROMValue(
+int16_t getTempeEEPOMSetpoint() {
+  return initEEPROMValue(
       TEMPE_SETPOINT_EEPROM_ADDRESS,
       TEMPE_SETPOINT_MIN,
       TEMPE_SETPOINT_MAX,
       DEFAULT_TEMPE_SETPOINT);
+}
 
-  store::setAnalog(idTempeSetpoint, val);
+void initTempeSetpoint() {
+  store::setAnalog(idTempeSetpoint, getTempeEEPOMSetpoint());
 }
 
 void temperatureLoop() {

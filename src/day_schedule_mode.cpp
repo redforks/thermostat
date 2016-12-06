@@ -17,9 +17,9 @@ void dayScheduleOnRTCAlarm(tmElementsPtr_t tm) {
   }
 
   if (schedule.get(section)) {
-    setTempeSetpoint(getScheduleHighTempeSetpoint());
+    setTempeSetpoint(getScheduleHighTempeSetpoint(), true);
   } else {
-    setTempeSetpoint(getScheduleLowTempeSetpoint());
+    setTempeSetpoint(getScheduleLowTempeSetpoint(), true);
   }
 }
 

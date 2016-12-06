@@ -6,6 +6,7 @@
 #include "log.h"
 #include "keyboard.h"
 #include "rtc.h"
+#include "shutdown.h"
 
 using namespace core;
 using namespace core::store;
@@ -21,6 +22,7 @@ void setup() {
   setupTempeControl();
   setupDisplay();
   setupLog();
+  setupShutdown();
 }
 
 void loop() {
